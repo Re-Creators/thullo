@@ -5,3 +5,15 @@
 body {
   background-color: #f8f9fd;
 }
+
+.btn {
+  @apply bg-blue-500 hover:bg-blue-600 active:translate-y-0.5 text-white rounded-lg;
+}
+
+.img-container {
+  @apply overflow-hidden rounded-lg;
+}
+
+.img-full {
+  @apply w-full h-full object-cover object-center;
+}
