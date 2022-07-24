@@ -5,7 +5,7 @@ import { AiOutlineCaretDown } from "react-icons/ai";
 
 function TopBar() {
   return (
-    <nav className="p-6 bg-white shadow-md flex justify-between items-center">
+    <nav className="p-6 bg-white shadow-md flex justify-between items-center relative z-[1] ">
       <Link to="/">
         <img src={Logo} alt="Logo" />
       </Link>
