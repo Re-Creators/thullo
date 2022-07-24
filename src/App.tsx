@@ -1,14 +1,14 @@
 import { Menu } from "@headlessui/react";
 import TopBar from "./components/TopBar";
 import { Routes, Route } from "react-router-dom";
-import Board from "./pages/Board";
+import Workspace from "./pages/Workspace";
 
 function App() {
   return (
     <div>
       <TopBar />
       <Routes>
-        <Route path="/" element={<Board />}></Route>
+        <Route path="/" element={<Workspace />}></Route>
       </Routes>
     </div>
   );
