@@ -6,7 +6,7 @@ body {
   background-color: #f8f9fd;
 }
 
-.btn {
+.btn-blue {
   @apply bg-blue-500 hover:bg-blue-600 active:translate-y-0.5 text-white rounded-lg;
 }
 
