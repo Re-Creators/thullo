@@ -1,5 +1,8 @@
+import { BiCommentDetail } from "react-icons/bi";
 import { BsPlusLg } from "react-icons/bs";
-import { MdOutlineMoreHoriz } from "react-icons/md";
+import { FiMoreHorizontal } from "react-icons/fi";
+import { MdAttachFile, MdOutlineMoreHoriz } from "react-icons/md";
+import CardItem from "../components/board/CardItem";
 import InviteMemberPopover from "../components/popover/InviteMemberPopover";
 import VisibilityPopover from "../components/popover/VisibilityPopover";
 
@@ -32,7 +35,44 @@ export default function Board() {
           <span className="text-sm ml-3">Show Menu</span>
         </button>
       </div>
-      <div className="bg-[#F8F9FD] p-5 rounded-lg w-full mt-10">asd</div>
+      <div className="bg-[#F8F9FD] flex space-x-8 p-5 rounded-lg w-full mt-10">
+        <div>
+          <div className="w-[343px]">
+            <div className="flex justify-between items-center">
+              <h2>Backlog</h2>
+              <button>
+                <FiMoreHorizontal fontSize={24} />
+              </button>
+            </div>
+          </div>
+          <div className="space-y-4 mt-5">
+            <CardItem />
+            <div className="flex items-center justify-between w-full bg-blue-200 hover:bg-blue-300 active:translate-y-0.5 text-blue-800 py-2 px-3 rounded-lg cursor-pointer">
+              <span>Add another card</span>
+              <BsPlusLg />
+            </div>
+          </div>
+        </div>
+        <div>
+          <div className="w-[343px]">
+            <div className="flex justify-between items-center">
+              <h2>In Progress</h2>
+              <button>
+                <FiMoreHorizontal fontSize={24} />
+              </button>
+            </div>
+          </div>
+          <div className="space-y-4 mt-5">
+            <CardItem />
+            <CardItem />
+            <CardItem />
+          </div>
+        </div>
+        <div className="flex items-center justify-between w-[343px] h-10 bg-blue-200 hover:bg-blue-300 active:translate-y-0.5 text-blue-800 py-2 px-3 rounded-lg cursor-pointer">
+          <span>Add another list</span>
+          <BsPlusLg />
+        </div>
+      </div>
     </div>
   );
 }
