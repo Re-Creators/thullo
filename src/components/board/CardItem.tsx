@@ -4,7 +4,7 @@ import { MdAttachFile } from "react-icons/md";
 
 export default function CardItem() {
   return (
-    <div className="w-full p-3 bg-white rounded-lg flex flex-col cursor-pointer">
+    <div className="w-full p-3 bg-white rounded-lg flex flex-col cursor-pointer transition-shadow ease-in duration-300 hover:shadow-lg">
       <div className="img-container w-full h-40 ">
         <img
           src="https://lastfm.freetls.fastly.net/i/u/770x0/d94e7f5b6162e826bf8f451b383a78f1.jpg"

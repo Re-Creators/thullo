@@ -1,8 +1,9 @@
 import { BiCommentDetail } from "react-icons/bi";
 import { BsPlusLg } from "react-icons/bs";
 import { FiMoreHorizontal } from "react-icons/fi";
-import { MdAttachFile, MdOutlineMoreHoriz } from "react-icons/md";
+import { MdOutlineMoreHoriz } from "react-icons/md";
 import CardItem from "../components/board/CardItem";
+import CardInformation from "../components/modals/card-information/CardInformation";
 import InviteMemberPopover from "../components/popover/InviteMemberPopover";
 import VisibilityPopover from "../components/popover/VisibilityPopover";
 
@@ -73,6 +74,7 @@ export default function Board() {
           <BsPlusLg />
         </div>
       </div>
+      <CardInformation />
     </div>
   );
 }
