@@ -1,16 +1,25 @@
 import { Popover, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-import { BsPlusLg } from "react-icons/bs";
 
-export default function InviteMemberPopover() {
+interface Props {
+  title: String;
+  description: String;
+  className: string;
+  children: React.ReactNode;
+}
+
+export default function InviteMemberPopover({
+  title,
+  description,
+  className,
+  children,
+}: Props) {
   return (
     <Popover className="relative">
       {() => (
         <>
-          <Popover.Button className="btn-blue px-3 h-full outline-none">
-            <BsPlusLg />
-          </Popover.Button>
+          <Popover.Button className={className}>{children}</Popover.Button>
           <Transition
             as={Fragment}
             enter="transition ease-out duration-200"
@@ -24,10 +33,8 @@ export default function InviteMemberPopover() {
               <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 ">
                 <div className="bg-white p-4 border">
                   <div>
-                    <h2 className="font-semibold">Invite to board</h2>
-                    <p className="mt-1 text-gray-400 text-sm">
-                      Search users you want to invite to
-                    </p>
+                    <h2 className="font-semibold">{title}</h2>
+                    <p className="mt-1 text-gray-400 text-sm">{description}</p>
                   </div>
                   <div className="mt-6 relative w-full overflow-hidden bg-white shadow-md border rounded-lg">
                     <input

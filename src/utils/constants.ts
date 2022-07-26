@@ -25,6 +25,57 @@ export const colors = [
   },
 ];
 
+export const labels = [
+  {
+    name: "",
+    color: "#219653",
+  },
+  {
+    name: "",
+    color: "#F2C94C",
+  },
+  {
+    name: "",
+    color: "#F2994A",
+  },
+  {
+    name: "",
+    color: "#EB5757",
+  },
+  {
+    name: "",
+    color: "#2F80ED",
+  },
+  {
+    name: "",
+    color: "#56CCF2",
+  },
+  {
+    name: "",
+    color: "#6FCF97",
+  },
+  {
+    name: "",
+    color: "#6FCF97",
+  },
+  {
+    name: "",
+    color: "#4F4F4F",
+  },
+  {
+    name: "",
+    color: "#828282",
+  },
+  {
+    name: "",
+    color: "#BDBDBD",
+  },
+  {
+    name: "",
+    color: "#E0E0E0",
+  },
+];
+
 export const photos = [
   {
     id: 1,

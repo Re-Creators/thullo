@@ -38,7 +38,7 @@ export default function CardInformation() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-1/2 transform relative overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-1/2 transform relative rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <button className="btn-blue absolute right-4 top-4 p-2 z-10 outline-none">
                     <IoCloseSharp fontSize={24} />
                   </button>

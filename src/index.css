@@ -12,7 +12,7 @@ body {
 }
 
 .btn-gray {
-  @apply bg-gray-200 hover:bg-gray-300 active:translate-y-0.5 text-gray-600 rounded-lg flex items-center justify-center;
+  @apply bg-gray-200 hover:bg-gray-300 active:translate-y-0.5 text-gray-600 rounded-lg flex items-center outline-none;
 }
 
 .img-container {

@@ -28,10 +28,16 @@ export default function Board() {
                 className="img-full"
               />
             </div>
-            <InviteMemberPopover />
+            <InviteMemberPopover
+              title="Invite to board"
+              description="Search users you want to invite to"
+              className="btn-blue px-3 h-full outline-none"
+            >
+              <BsPlusLg />
+            </InviteMemberPopover>
           </div>
         </div>
-        <button className="btn-gray px-8 py-3 ">
+        <button className="btn-gray justify-center px-8 py-3 ">
           <MdOutlineMoreHoriz fontSize={24} />
           <span className="text-sm ml-3">Show Menu</span>
         </button>

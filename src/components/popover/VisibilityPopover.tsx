@@ -8,7 +8,7 @@ export default function VisibilityPopover() {
     <Popover className="relative">
       {() => (
         <>
-          <Popover.Button className="btn-gray px-8 py-3 outline-none">
+          <Popover.Button className="btn-gray justify-center px-8 py-3 outline-none">
             <BiLockAlt />
             <span className="text-sm ml-3">Private</span>
           </Popover.Button>
