@@ -1,13 +1,73 @@
-import { BiCommentDetail } from "react-icons/bi";
 import { BsPlusLg } from "react-icons/bs";
-import { FiMoreHorizontal } from "react-icons/fi";
 import { MdOutlineMoreHoriz } from "react-icons/md";
-import CardItem from "../components/board/CardItem";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import Column from "../components/board/Column";
 import CardInformation from "../components/modals/card-information/CardInformation";
 import InviteMemberPopover from "../components/popover/InviteMemberPopover";
 import VisibilityPopover from "../components/popover/VisibilityPopover";
+import { CardData } from "../types";
+import { useState } from "react";
+
+const initialData = {
+  tasks: {
+    "task-1": { id: "task-1", content: "Take out the garbage" },
+    "task-2": { id: "task-2", content: "Watch my favorite show" },
+    "task-3": { id: "task-3", content: "Charge my phone" },
+    "task-4": { id: "task-4", content: "Cook dinner" },
+  },
+  columns: {
+    "column-1": {
+      id: "column-1",
+      title: "To do",
+      taskIds: ["task-1", "task-2", "task-3", "task-4"],
+    },
+  },
+  // Facilitate reordering of the columns
+  columnOrder: ["column-1"],
+};
+
+type ColumnKey = keyof typeof initialData.columns;
+type TaskKey = keyof typeof initialData.tasks;
 
 export default function Board() {
+  const [state, setState] = useState(initialData);
+
+  const onDragEnd = (result: DropResult) => {
+    const { source, destination } = result;
+
+    if (!destination) {
+      return;
+    }
+
+    if (
+      source.droppableId === destination.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    const newTaskIds = Array.from(
+      state.columns[source.droppableId as ColumnKey].taskIds
+    );
+    newTaskIds.splice(source.index, 1);
+    newTaskIds.splice(destination.index, 0, result.draggableId);
+
+    const newColumn = {
+      ...state.columns[source.droppableId as ColumnKey],
+      taskIds: newTaskIds,
+    };
+
+    const newState = {
+      ...state,
+      columns: {
+        ...state.columns,
+        [newColumn.id]: newColumn,
+      },
+    };
+
+    setState(newState);
+  };
+
   return (
     <div className="bg-white min-h-screen px-8 py-16">
       <div className="flex justify-between h-10">
@@ -43,38 +103,15 @@ export default function Board() {
         </button>
       </div>
       <div className="bg-[#F8F9FD] flex space-x-8 p-5 rounded-lg w-full mt-10">
-        <div>
-          <div className="w-[343px]">
-            <div className="flex justify-between items-center">
-              <h2>Backlog</h2>
-              <button>
-                <FiMoreHorizontal fontSize={24} />
-              </button>
-            </div>
-          </div>
-          <div className="space-y-4 mt-5">
-            <CardItem />
-            <div className="flex items-center justify-between w-full bg-blue-200 hover:bg-blue-300 active:translate-y-0.5 text-blue-800 py-2 px-3 rounded-lg cursor-pointer">
-              <span>Add another card</span>
-              <BsPlusLg />
-            </div>
-          </div>
-        </div>
-        <div>
-          <div className="w-[343px]">
-            <div className="flex justify-between items-center">
-              <h2>In Progress</h2>
-              <button>
-                <FiMoreHorizontal fontSize={24} />
-              </button>
-            </div>
-          </div>
-          <div className="space-y-4 mt-5">
-            <CardItem />
-            <CardItem />
-            <CardItem />
-          </div>
-        </div>
+        <DragDropContext onDragEnd={onDragEnd}>
+          {state.columnOrder.map((columnId) => {
+            const column = state.columns[columnId as ColumnKey];
+            const tasks = column.taskIds.map(
+              (taskId): CardData => state.tasks[taskId as TaskKey]
+            );
+            return <Column key={column.id} tasks={tasks} list={column} />;
+          })}
+        </DragDropContext>
         <div className="flex items-center justify-between w-[343px] h-10 bg-blue-200 hover:bg-blue-300 active:translate-y-0.5 text-blue-800 py-2 px-3 rounded-lg cursor-pointer">
           <span>Add another list</span>
           <BsPlusLg />

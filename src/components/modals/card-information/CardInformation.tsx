@@ -6,7 +6,7 @@ import MainContent from "./MainContent";
 import Actions from "./Actions";
 
 export default function CardInformation() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const closeModal = () => {
     setIsOpen(false);
