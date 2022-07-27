@@ -14,6 +14,8 @@ const initialData = {
     "task-2": { id: "task-2", content: "Watch my favorite show" },
     "task-3": { id: "task-3", content: "Charge my phone" },
     "task-4": { id: "task-4", content: "Cook dinner" },
+    "task-5": { id: "task-5", content: "Coding Practices" },
+    "task-6": { id: "task-6", content: "English courses" },
   },
   columns: {
     "column-1": {
@@ -21,9 +23,14 @@ const initialData = {
       title: "To do",
       taskIds: ["task-1", "task-2", "task-3", "task-4"],
     },
+    "column-2": {
+      id: "column-2",
+      title: "On Progress",
+      taskIds: ["task-5", "task-6"],
+    },
   },
   // Facilitate reordering of the columns
-  columnOrder: ["column-1"],
+  columnOrder: ["column-1", "column-2"],
 };
 
 type ColumnKey = keyof typeof initialData.columns;
@@ -33,7 +40,7 @@ export default function Board() {
   const [state, setState] = useState(initialData);
 
   const onDragEnd = (result: DropResult) => {
-    const { source, destination } = result;
+    const { source, destination, draggableId } = result;
 
     if (!destination) {
       return;
@@ -46,22 +53,53 @@ export default function Board() {
       return;
     }
 
-    const newTaskIds = Array.from(
-      state.columns[source.droppableId as ColumnKey].taskIds
-    );
-    newTaskIds.splice(source.index, 1);
-    newTaskIds.splice(destination.index, 0, result.draggableId);
+    const start = state.columns[source.droppableId as ColumnKey];
+    const finish = state.columns[destination.droppableId as ColumnKey];
 
-    const newColumn = {
-      ...state.columns[source.droppableId as ColumnKey],
-      taskIds: newTaskIds,
+    if (source.droppableId === destination.droppableId) {
+      const newTaskIds = Array.from(start.taskIds);
+      newTaskIds.splice(source.index, 1);
+      newTaskIds.splice(destination.index, 0, draggableId);
+
+      const newColumn = {
+        ...state.columns[source.droppableId as ColumnKey],
+        taskIds: newTaskIds,
+      };
+
+      const newState = {
+        ...state,
+        columns: {
+          ...state.columns,
+          [newColumn.id]: newColumn,
+        },
+      };
+
+      setState(newState);
+      return;
+    }
+
+    const startTaskId = start.taskIds.splice(source.index, 1);
+    const newStart = {
+      ...start,
+      taskIds: start.taskIds,
+    };
+
+    const finishTaskId = finish.taskIds.splice(
+      destination.index,
+      0,
+      draggableId
+    );
+    const newFinish = {
+      ...finish,
+      taskIds: finish.taskIds,
     };
 
     const newState = {
       ...state,
       columns: {
         ...state.columns,
-        [newColumn.id]: newColumn,
+        [newStart.id]: newStart,
+        [newFinish.id]: newFinish,
       },
     };
 

@@ -11,7 +11,7 @@ interface Props {
 
 export default function Column({ tasks, list }: Props) {
   return (
-    <div className="w-[343px]">
+    <div className="w-[343px] px-3">
       <div className="flex justify-between items-center">
         <h2>Backlog</h2>
         <button>
@@ -22,7 +22,7 @@ export default function Column({ tasks, list }: Props) {
         {(provided) => (
           <div
             ref={provided.innerRef}
-            className="space-y-4 mt-5"
+            className="space-y-4 mb-5 bg-slate-100 mt-3"
             {...provided.droppableProps}
           >
             {tasks.map((task, index) => (
