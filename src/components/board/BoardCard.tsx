@@ -1,16 +1,25 @@
 import React from "react";
+import { CardBoardData } from "../../types";
 
-function BoardCard() {
+interface Props {
+  board: CardBoardData;
+}
+
+function BoardCard({ board }: Props) {
   return (
-    <div className="bg-white shadow-md hover:shadow-xl transition-shadow duration-200 rounded-lg  p-5">
+    <div className="bg-white shadow-md hover:shadow-xl transition-shadow duration-200 rounded-lg  p-5 cursor-pointer">
       <div>
         <div className="w-full h-32 rounded-md overflow-hidden">
-          <img
-            src="https://pbs.twimg.com/media/FDRw7kCagAAfb0b?format=jpg&name=900x900"
-            className="img-full"
-          />
+          {board.type === "Color" ? (
+            <div
+              className="w-full h-full"
+              style={{ backgroundColor: board.cover }}
+            ></div>
+          ) : (
+            <img src={board.cover} alt="" className="img-full" />
+          )}
         </div>
-        <h2 className="mt-3 font-semibold">Simple Project Board</h2>
+        <h2 className="mt-3 font-semibold">{board.title}</h2>
       </div>
       <div className="flex space-x-3 mt-8 items-center">
         <div className="img-container w-10 h-10 cursor-pointer">

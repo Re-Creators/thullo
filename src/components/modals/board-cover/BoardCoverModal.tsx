@@ -4,23 +4,27 @@ import AllCover from "./AllCover";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import { State } from "./enums";
 import Photos from "./Photos";
+import { CoverType } from "../../../types";
+import NiceModal, { useModal } from "@ebay/nice-modal-react";
 
 interface Props {
-  isOpen: boolean;
+  selected: string;
   closeModal: () => void;
+  chooseCover: (type: CoverType, cover: string) => void;
 }
 
 const stateTitle = ["Board Cover", "Photos"];
 
-export default function BoardCoverModal({ isOpen, closeModal }: Props) {
+const BoardCoverModal = NiceModal.create(({ chooseCover, selected }: Props) => {
+  const modal = useModal();
   const coverOptionRef = useRef<HTMLDivElement>(null);
   const [state, setState] = useState(0);
 
   return (
     <Dialog
       as="div"
-      open={isOpen}
-      onClose={closeModal}
+      open={modal.visible}
+      onClose={() => modal.remove()}
       className="relative z-50"
     >
       <div className="fixed inset-0 flex items-center justify-center p-4">
@@ -45,13 +49,18 @@ export default function BoardCoverModal({ isOpen, closeModal }: Props) {
             </Dialog.Title>
 
             {state === 0 && (
-              <AllCover changeState={(value) => setState(value)} />
+              <AllCover
+                changeState={(value) => setState(value)}
+                chooseCover={chooseCover}
+                selected={selected}
+              />
             )}
             {state === 1 && <Photos />}
-            {state === 2 && <div>Colors</div>}
           </div>
         </Dialog.Panel>
       </div>
     </Dialog>
   );
-}
+});
+
+export default BoardCoverModal;

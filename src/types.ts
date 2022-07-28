@@ -8,3 +8,13 @@ export interface ListData {
   title: string;
   taskIds: string[];
 }
+
+export type CoverType = "Image" | "Color";
+
+export interface CardBoardData {
+  id: string;
+  title: string;
+  type: CoverType;
+  cover: string;
+  isPrivate: boolean;
+}

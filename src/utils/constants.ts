@@ -1,27 +1,27 @@
 export const colors = [
   {
     name: "Red",
-    value: "rgb(239 68 68)",
+    value: "#ef4444",
   },
   {
     name: "Blue",
-    value: "rgb(59 130 246)",
+    value: "#3b82f6",
   },
   {
     name: "Yellow",
-    value: "rgb(234 179 8)",
+    value: "#eab308",
   },
   {
     name: "Purple",
-    value: "rgb(168 85 247)",
+    value: "#a855f7",
   },
   {
     name: "Pink",
-    value: "rgb(236 72 153)",
+    value: "#ec4899",
   },
   {
     name: "Green",
-    value: "rgb(34 197 94)",
+    value: "#22c55e",
   },
 ];
 
