@@ -18,3 +18,9 @@ export interface CardBoardData {
   cover: string;
   isPrivate: boolean;
 }
+
+// export
+
+export interface DragAndDrop {
+  columnOrder: string[];
+}

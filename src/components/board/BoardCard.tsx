@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { CardBoardData } from "../../types";
 
 interface Props {
@@ -7,7 +8,10 @@ interface Props {
 
 function BoardCard({ board }: Props) {
   return (
-    <div className="bg-white shadow-md hover:shadow-xl transition-shadow duration-200 rounded-lg  p-5 cursor-pointer">
+    <Link
+      to={`/board/${board.id}`}
+      className="bg-white shadow-md hover:shadow-xl transition-shadow duration-200 rounded-lg  p-5 cursor-pointer"
+    >
       <div>
         <div className="w-full h-32 rounded-md overflow-hidden">
           {board.type === "Color" ? (
@@ -31,7 +35,7 @@ function BoardCard({ board }: Props) {
         </div>
         <div className="text-gray-400">5+ Others</div>
       </div>
-    </div>
+    </Link>
   );
 }
 

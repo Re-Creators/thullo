@@ -1,20 +1,17 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { IoCloseSharp } from "react-icons/io5";
-import Attachment from "./Attachment";
 import MainContent from "./MainContent";
 import Actions from "./Actions";
+import NiceModal, { useModal } from "@ebay/nice-modal-react";
 
-export default function CardInformation() {
-  const [isOpen, setIsOpen] = useState(false);
+const CardInformationModal = NiceModal.create(() => {
+  const modal = useModal();
 
-  const closeModal = () => {
-    setIsOpen(false);
-  };
   return (
     <>
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+      <Transition appear show={modal.visible} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={modal.hide}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -39,7 +36,10 @@ export default function CardInformation() {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-1/2 transform relative rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <button className="btn-blue absolute right-4 top-4 p-2 z-10 outline-none">
+                  <button
+                    className="btn-blue absolute right-4 top-4 p-2 z-10 outline-none"
+                    onClick={modal.hide}
+                  >
                     <IoCloseSharp fontSize={24} />
                   </button>
                   <div className="img-container w-full h-40">
@@ -61,4 +61,6 @@ export default function CardInformation() {
       </Transition>
     </>
   );
-}
+});
+
+export default CardInformationModal;

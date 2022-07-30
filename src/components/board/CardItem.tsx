@@ -3,6 +3,8 @@ import { BiCommentDetail } from "react-icons/bi";
 import { BsPlusLg } from "react-icons/bs";
 import { MdAttachFile } from "react-icons/md";
 import { CardData } from "../../types";
+import NiceModal from "@ebay/nice-modal-react";
+import CardInformation from "../modals/card-information/CardInformationModal";
 
 interface Props {
   task: CardData;
@@ -17,7 +19,8 @@ export default function CardItem({ task, index }: Props) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
-          className="w-full p-3 bg-white rounded-lg flex flex-col cursor-pointer transition-shadow ease-in duration-300 hover:shadow-lg"
+          className="w-full p-3 bg-white rounded-lg flex flex-col !cursor-pointer transition-shadow ease-in duration-300 hover:shadow-lg"
+          onClick={() => NiceModal.show("card-information")}
         >
           <div className="img-container w-full h-40 ">
             <img

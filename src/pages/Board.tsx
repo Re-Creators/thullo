@@ -2,11 +2,12 @@ import { BsPlusLg } from "react-icons/bs";
 import { MdOutlineMoreHoriz } from "react-icons/md";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import Column from "../components/board/Column";
-import CardInformation from "../components/modals/card-information/CardInformation";
+import CardInformationModal from "../components/modals/card-information/CardInformationModal";
 import InviteMemberPopover from "../components/popover/InviteMemberPopover";
 import VisibilityPopover from "../components/popover/VisibilityPopover";
 import { CardData } from "../types";
 import { useState } from "react";
+import NiceModal from "@ebay/nice-modal-react";
 
 const initialData = {
   tasks: {
@@ -29,15 +30,34 @@ const initialData = {
       taskIds: ["task-5", "task-6"],
     },
   },
-  // Facilitate reordering of the columns
   columnOrder: ["column-1", "column-2"],
 };
 
 type ColumnKey = keyof typeof initialData.columns;
 type TaskKey = keyof typeof initialData.tasks;
 
+NiceModal.register("card-information", CardInformationModal);
+
 export default function Board() {
   const [state, setState] = useState(initialData);
+
+  const createNewCard = (newCard: CardData, columnId: string) => {
+    const newTasks = { ...state.tasks, [newCard.id]: newCard };
+    const columnSelected = state.columns[columnId as ColumnKey];
+    const newColumns = {
+      columnSelected,
+      taskIds: [...columnSelected.taskIds, newCard.id],
+    };
+
+    setState({
+      ...state,
+      tasks: newTasks,
+      columns: {
+        ...state.columns,
+        [columnId]: newColumns,
+      },
+    });
+  };
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result;
@@ -78,17 +98,14 @@ export default function Board() {
       return;
     }
 
-    const startTaskId = start.taskIds.splice(source.index, 1);
+    start.taskIds.splice(source.index, 1);
     const newStart = {
       ...start,
       taskIds: start.taskIds,
     };
 
-    const finishTaskId = finish.taskIds.splice(
-      destination.index,
-      0,
-      draggableId
-    );
+    finish.taskIds.splice(destination.index, 0, draggableId);
+
     const newFinish = {
       ...finish,
       taskIds: finish.taskIds,
@@ -147,7 +164,15 @@ export default function Board() {
             const tasks = column.taskIds.map(
               (taskId): CardData => state.tasks[taskId as TaskKey]
             );
-            return <Column key={column.id} tasks={tasks} list={column} />;
+            return (
+              <Column
+                key={column.id}
+                tasks={tasks}
+                list={column}
+                columnId={columnId}
+                createNewCard={createNewCard}
+              />
+            );
           })}
         </DragDropContext>
         <div className="flex items-center justify-between w-[343px] h-10 bg-blue-200 hover:bg-blue-300 active:translate-y-0.5 text-blue-800 py-2 px-3 rounded-lg cursor-pointer">
@@ -155,7 +180,6 @@ export default function Board() {
           <BsPlusLg />
         </div>
       </div>
-      <CardInformation />
     </div>
   );
 }

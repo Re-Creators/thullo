@@ -10,7 +10,7 @@ export default function MainContent() {
         <input
           type="text"
           className="w-full outline-none py-1 px-2 border-2 border-transparent font-semibold focus:border-slate-300 rounded-lg"
-          value="Move anything that actually here"
+          // value="Move anything that actually here"
         />
         <p className="text-xs px-2">
           in list <span className="font-semibold">In Proggress</span>
