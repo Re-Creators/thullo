@@ -24,7 +24,7 @@ function TopBar() {
           <div className="w-14 h-14 rounded-full overflow-hidden">
             <img
               src="https://lastfm.freetls.fastly.net/i/u/770x0/d94e7f5b6162e826bf8f451b383a78f1.jpg"
-              alt="Profile Image"
+              alt="Profile"
               className="w-full h-full object-cover object-center"
             />
           </div>

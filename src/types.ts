@@ -1,6 +1,16 @@
 export interface CardData {
   id: string;
-  content: string;
+  title: string;
+  cover?: string;
+  description?: string;
+  attachments?: {
+    id: string;
+    date: string;
+    filename: string;
+  };
+  members?: [];
+  comments?: [];
+  labels?: [];
 }
 
 export interface ListData {

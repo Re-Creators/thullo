@@ -30,7 +30,7 @@ export default function Column({
   const handleCreateCard = () => {
     const newCard = {
       id: `${new Date().getTime()}`,
-      content: cardTitle,
+      title: cardTitle,
     };
     createNewCard(newCard, columnId);
   };
