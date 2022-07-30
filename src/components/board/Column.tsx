@@ -6,6 +6,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import useClickOutside from "../../hooks/useClickOutside";
 import { CardData, ListData } from "../../types";
+import ListOptionPopover from "../popover/ListOptionPopover";
 import CardItem from "./CardItem";
 
 interface Props {
@@ -40,10 +41,8 @@ export default function Column({
   return (
     <div className="w-[343px] flex-shrink-0 px-3">
       <div className="flex justify-between items-center">
-        <h2>Backlog</h2>
-        <button>
-          <FiMoreHorizontal fontSize={24} />
-        </button>
+        <h2>{list.title}</h2>
+        <ListOptionPopover />
       </div>
       <Droppable droppableId={list.id}>
         {(provided) => (

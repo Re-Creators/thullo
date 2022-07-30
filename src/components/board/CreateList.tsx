@@ -29,8 +29,8 @@ export default function CreateList({ createNewList }: Props) {
   return (
     <div
       className={`w-[343px] flex-shrink-0 ${
-        isShow ? "h-[112px]" : "h-[60px]"
-      } bg-white rounded-lg p-3 shadow-md transition-all duration-200 `}
+        isShow ? "h-[100px] shadow-md bg-white" : "h-[40px]"
+      }  px-3 rounded-lgtransition-all duration-200 `}
       ref={containerRef}
     >
       <input
@@ -44,7 +44,7 @@ export default function CreateList({ createNewList }: Props) {
         placeholder="Enter list title..."
       />
       <button
-        className={`w-full h-full  ${
+        className={`w-full h-full py-5  ${
           isShow ? "hidden" : "flex"
         } items-center justify-between bg-blue-200 hover:bg-blue-300 active:translate-y-0.5 text-blue-800 py-2 px-3 rounded-lg cursor-pointer`}
         onClick={() => setIsShow(true)}
