@@ -8,6 +8,9 @@ import VisibilityPopover from "../components/popover/VisibilityPopover";
 import { CardData } from "../types";
 import { useState } from "react";
 import NiceModal from "@ebay/nice-modal-react";
+import ReactTextareaAutosize from "react-textarea-autosize";
+import { IoCloseSharp } from "react-icons/io5";
+import CreateList from "../components/board/CreateList";
 
 const initialData = {
   tasks: {
@@ -45,7 +48,7 @@ export default function Board() {
     const newTasks = { ...state.tasks, [newCard.id]: newCard };
     const columnSelected = state.columns[columnId as ColumnKey];
     const newColumns = {
-      columnSelected,
+      ...columnSelected,
       taskIds: [...columnSelected.taskIds, newCard.id],
     };
 
@@ -56,6 +59,23 @@ export default function Board() {
         ...state.columns,
         [columnId]: newColumns,
       },
+    });
+  };
+
+  const createNewList = (title: string) => {
+    const newList = {
+      id: `s${new Date().getTime()}`,
+      title,
+      taskIds: [],
+    };
+
+    setState({
+      ...state,
+      columns: {
+        ...state.columns,
+        [newList.id]: newList,
+      },
+      columnOrder: [...state.columnOrder, newList.id],
     });
   };
 
@@ -157,7 +177,7 @@ export default function Board() {
           <span className="text-sm ml-3">Show Menu</span>
         </button>
       </div>
-      <div className="bg-[#F8F9FD] flex space-x-8 p-5 rounded-lg w-full mt-10">
+      <div className="bg-[#F8F9FD] flex space-x-8  p-5 rounded-lg max-w-full overflow-x-auto mt-10">
         <DragDropContext onDragEnd={onDragEnd}>
           {state.columnOrder.map((columnId) => {
             const column = state.columns[columnId as ColumnKey];
@@ -175,10 +195,7 @@ export default function Board() {
             );
           })}
         </DragDropContext>
-        <div className="flex items-center justify-between w-[343px] h-10 bg-blue-200 hover:bg-blue-300 active:translate-y-0.5 text-blue-800 py-2 px-3 rounded-lg cursor-pointer">
-          <span>Add another list</span>
-          <BsPlusLg />
-        </div>
+        <CreateList createNewList={createNewList} />
       </div>
     </div>
   );

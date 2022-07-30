@@ -4,7 +4,6 @@ import { BsPlusLg } from "react-icons/bs";
 import { MdAttachFile } from "react-icons/md";
 import { CardData } from "../../types";
 import NiceModal from "@ebay/nice-modal-react";
-import CardInformation from "../modals/card-information/CardInformationModal";
 
 interface Props {
   task: CardData;
