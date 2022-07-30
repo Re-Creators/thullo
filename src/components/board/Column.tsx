@@ -29,14 +29,16 @@ export default function Column({
 
   const handleCreateCard = () => {
     const newCard = {
-      id: `${new Date().getTime()}`,
+      id: `s${new Date().getTime()}`,
       title: cardTitle,
     };
     createNewCard(newCard, columnId);
+    setCardTitle("");
+    setIsCreateCard(false);
   };
 
   return (
-    <div className="w-[343px] px-3">
+    <div className="w-[343px] flex-shrink-0 px-3">
       <div className="flex justify-between items-center">
         <h2>Backlog</h2>
         <button>
