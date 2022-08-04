@@ -1,9 +1,8 @@
-import React from "react";
 import { Link } from "react-router-dom";
-import { CardBoardData } from "../../types";
+import { BoardData } from "../../types";
 
 interface Props {
-  board: CardBoardData;
+  board: BoardData;
 }
 
 function BoardCard({ board }: Props) {
@@ -14,16 +13,16 @@ function BoardCard({ board }: Props) {
     >
       <div>
         <div className="w-full h-32 rounded-md overflow-hidden">
-          {board.type === "Color" ? (
+          {board.cover.type === "Color" ? (
             <div
               className="w-full h-full"
-              style={{ backgroundColor: board.cover }}
+              style={{ backgroundColor: board.cover?.source }}
             ></div>
           ) : (
-            <img src={board.cover} alt="" className="img-full" />
+            <img src={board.cover.source} alt="" className="img-full" />
           )}
         </div>
-        <h2 className="mt-3 font-semibold">{board.title}</h2>
+        <h2 className="mt-3 font-semibold">{board.name}</h2>
       </div>
       <div className="flex space-x-3 mt-8 items-center">
         <div className="img-container w-10 h-10 cursor-pointer">

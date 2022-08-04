@@ -4,32 +4,23 @@ import {
   useCallback,
   useEffect,
   useId,
-  useMemo,
   useRef,
   useState,
 } from "react";
 import { BsPlusLg } from "react-icons/bs";
 import { BiImageAlt, BiLockAlt } from "react-icons/bi";
 import BoardCoverModal from "./board-cover/BoardCoverModal";
-import { CardBoardData, CoverType } from "../../types";
+import { BoardData, CoverType } from "../../types";
 import { photos } from "../../utils/constants";
 import NiceModal, { useModal } from "@ebay/nice-modal-react";
-
-const intitalData = {
-  id: "",
-  title: "",
-  type: "Color" as CoverType,
-  cover: "#ccc",
-  isPrivate: false,
-};
+import { supabase } from "../../api/supabaseClient";
 
 interface Props {
-  createBoard: (board: CardBoardData) => void;
+  createNewBoard: (boards: BoardData) => void;
 }
 
-const NewBoardModal = NiceModal.create(({ createBoard }: Props) => {
+const NewBoardModal = NiceModal.create(({ createNewBoard }: Props) => {
   const modal = useModal();
-  const boardId = useId();
   const coverBtnRef = useRef<HTMLButtonElement>(null);
   const [title, setTitle] = useState("");
   const [cover, setCover] = useState({
@@ -51,13 +42,14 @@ const NewBoardModal = NiceModal.create(({ createBoard }: Props) => {
     setCover({ type, cover });
   };
 
-  const createBoardHandler = () => {
-    createBoard({
-      id: `${new Date().getTime()}`,
-      title,
-      type: cover.type,
-      cover: cover.cover,
-      isPrivate,
+  const createBoardHandler = async () => {
+    createNewBoard({
+      name: title,
+      cover: {
+        type: cover.type,
+        source: cover.cover,
+      },
+      is_private: isPrivate,
     });
     reset();
     modal.hide();

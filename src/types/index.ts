@@ -1,3 +1,7 @@
+import { definitions } from "./supabase";
+
+export interface Supabase extends Omit<definitions, ""> {}
+
 export interface CardData {
   id: string;
   title: string;
@@ -21,15 +25,19 @@ export interface ListData {
 
 export type CoverType = "Image" | "Color";
 
-export interface CardBoardData {
-  id: string;
-  title: string;
-  type: CoverType;
-  cover: string;
-  isPrivate: boolean;
+export interface BoardData {
+  id?: string;
+  name: string;
+  created_at?: string;
+  cover: {
+    type: CoverType;
+    source: string;
+  };
+  is_private: boolean;
+  user_id?: string;
 }
 
-// export
+//   // export
 
 export interface DragAndDrop {
   columnOrder: string[];
