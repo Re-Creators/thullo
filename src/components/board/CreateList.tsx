@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { BsPlusLg } from "react-icons/bs";
 import { IoCloseSharp } from "react-icons/io5";
+import { useParams } from "react-router-dom";
+import { postNewList } from "../../api/services/lists";
 import useClickOutside from "../../hooks/useClickOutside";
 
 interface Props {
@@ -8,6 +10,7 @@ interface Props {
 }
 
 export default function CreateList({ createNewList }: Props) {
+  const { boardId } = useParams();
   const containerRef = useClickOutside(() => {
     setIsShow(false);
   });
@@ -15,8 +18,14 @@ export default function CreateList({ createNewList }: Props) {
   const [isShow, setIsShow] = useState(false);
   const [title, setTitle] = useState("");
 
-  const createNewListHandler = () => {
+  const createNewListHandler = async () => {
+    const { data } = await postNewList({
+      name: title,
+      board_id: boardId,
+    });
+    console.log(data);
     createNewList(title);
+
     setTitle("");
     setIsShow(false);
   };

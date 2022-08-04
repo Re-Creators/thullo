@@ -1,16 +1,18 @@
 import { BsPlusLg } from "react-icons/bs";
 import { MdOutlineMoreHoriz } from "react-icons/md";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
-import Column from "../components/board/Column";
 import CardInformationModal from "../components/modals/card-information/CardInformationModal";
 import InviteMemberPopover from "../components/popover/InviteMemberPopover";
 import VisibilityPopover from "../components/popover/VisibilityPopover";
-import { CardData } from "../types";
-import { useState } from "react";
+import { CardData, ListData } from "../types";
+import { useEffect, useState } from "react";
 import NiceModal from "@ebay/nice-modal-react";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import { IoCloseSharp } from "react-icons/io5";
 import CreateList from "../components/board/CreateList";
+import List from "../components/board/List";
+import { fetchSingleBoard } from "../api/services/boards";
+import { useParams } from "react-router-dom";
 
 const initialData = {
   tasks: {
@@ -24,12 +26,12 @@ const initialData = {
   columns: {
     "column-1": {
       id: "column-1",
-      title: "To do",
+      name: "To do",
       taskIds: ["task-1", "task-2", "task-3", "task-4"],
     },
     "column-2": {
       id: "column-2",
-      title: "On Progress",
+      name: "On Progress",
       taskIds: ["task-5", "task-6"],
     },
   },
@@ -43,6 +45,9 @@ NiceModal.register("card-information", CardInformationModal);
 
 export default function Board() {
   const [state, setState] = useState(initialData);
+  const [cards, setCards] = useState<CardData[]>([]);
+  const [lists, setLists] = useState<ListData[]>([]);
+  const { boardId } = useParams();
 
   const createNewCard = (newCard: CardData, columnId: string) => {
     const newTasks = { ...state.tasks, [newCard.id]: newCard };
@@ -81,7 +86,7 @@ export default function Board() {
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result;
-
+    console.log(result);
     if (!destination) {
       return;
     }
@@ -93,55 +98,55 @@ export default function Board() {
       return;
     }
 
-    const start = state.columns[source.droppableId as ColumnKey];
-    const finish = state.columns[destination.droppableId as ColumnKey];
-
-    if (source.droppableId === destination.droppableId) {
-      const newTaskIds = Array.from(start.taskIds);
-      newTaskIds.splice(source.index, 1);
-      newTaskIds.splice(destination.index, 0, draggableId);
-
-      const newColumn = {
-        ...state.columns[source.droppableId as ColumnKey],
-        taskIds: newTaskIds,
-      };
-
-      const newState = {
-        ...state,
-        columns: {
-          ...state.columns,
-          [newColumn.id]: newColumn,
-        },
-      };
-
-      setState(newState);
-      return;
-    }
-
-    start.taskIds.splice(source.index, 1);
-    const newStart = {
-      ...start,
-      taskIds: start.taskIds,
-    };
-
-    finish.taskIds.splice(destination.index, 0, draggableId);
-
-    const newFinish = {
-      ...finish,
-      taskIds: finish.taskIds,
-    };
-
-    const newState = {
-      ...state,
-      columns: {
-        ...state.columns,
-        [newStart.id]: newStart,
-        [newFinish.id]: newFinish,
-      },
-    };
-
-    setState(newState);
+    // const start = state.columns[source.droppableId as ColumnKey];
+    // const finish = state.columns[destination.droppableId as ColumnKey];
+    // if (source.droppableId === destination.droppableId) {
+    //   const newTaskIds = Array.from(start.taskIds);
+    //   newTaskIds.splice(source.index, 1);
+    //   newTaskIds.splice(destination.index, 0, draggableId);
+    //   const newColumn = {
+    //     ...state.columns[source.droppableId as ColumnKey],
+    //     taskIds: newTaskIds,
+    //   };
+    //   const newState = {
+    //     ...state,
+    //     columns: {
+    //       ...state.columns,
+    //       [newColumn.id]: newColumn,
+    //     },
+    //   };
+    //   setState(newState);
+    //   return;
+    // }
+    // start.taskIds.splice(source.index, 1);
+    // const newStart = {
+    //   ...start,
+    //   taskIds: start.taskIds,
+    // };
+    // finish.taskIds.splice(destination.index, 0, draggableId);
+    // const newFinish = {
+    //   ...finish,
+    //   taskIds: finish.taskIds,
+    // };
+    // const newState = {
+    //   ...state,
+    //   columns: {
+    //     ...state.columns,
+    //     [newStart.id]: newStart,
+    //     [newFinish.id]: newFinish,
+    //   },
+    // };
+    // setState(newState);
   };
+
+  useEffect(() => {
+    const fetchBoard = async () => {
+      const { data } = await fetchSingleBoard(boardId);
+      setLists(data.lists);
+      setCards(data.cards);
+    };
+    fetchBoard();
+  }, []);
 
   return (
     <div className="bg-white min-h-screen px-8 py-16">
@@ -179,13 +184,13 @@ export default function Board() {
       </div>
       <div className="bg-[#F8F9FD] flex space-x-8  p-5 rounded-lg max-w-full overflow-x-auto mt-10">
         <DragDropContext onDragEnd={onDragEnd}>
-          {state.columnOrder.map((columnId) => {
+          {/* {state.columnOrder.map((columnId) => {
             const column = state.columns[columnId as ColumnKey];
             const tasks = column.taskIds.map(
               (taskId): CardData => state.tasks[taskId as TaskKey]
             );
             return (
-              <Column
+              <List
                 key={column.id}
                 tasks={tasks}
                 list={column}
@@ -193,7 +198,17 @@ export default function Board() {
                 createNewCard={createNewCard}
               />
             );
-          })}
+          })} */}
+          {lists.map((list) => (
+            <List
+              key={list.id}
+              cards={cards.filter((card) => card.list_id === list.id)}
+              list={list}
+              createNewCard={(card) => {
+                setCards([...cards, card]);
+              }}
+            />
+          ))}
         </DragDropContext>
         <CreateList createNewList={createNewList} />
       </div>

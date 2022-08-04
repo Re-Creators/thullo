@@ -4,7 +4,7 @@ export interface Supabase extends Omit<definitions, ""> {}
 
 export interface CardData {
   id: string;
-  title: string;
+  name: string;
   cover?: string;
   description?: string;
   attachments?: {
@@ -15,12 +15,15 @@ export interface CardData {
   members?: [];
   comments?: [];
   labels?: [];
+  list_id: string;
+  board_id: string;
+  pos: number;
 }
 
 export interface ListData {
   id: string;
-  title: string;
-  taskIds: string[];
+  name: string;
+  board_id: string;
 }
 
 export type CoverType = "Image" | "Color";
@@ -36,8 +39,6 @@ export interface BoardData {
   is_private: boolean;
   user_id?: string;
 }
-
-//   // export
 
 export interface DragAndDrop {
   columnOrder: string[];

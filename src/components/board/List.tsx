@@ -1,47 +1,57 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { BsPlusLg } from "react-icons/bs";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { IoCloseSharp } from "react-icons/io5";
 import ReactTextareaAutosize from "react-textarea-autosize";
+import { postNewCard } from "../../api/services/cards";
 import useClickOutside from "../../hooks/useClickOutside";
 import { CardData, ListData } from "../../types";
 import ListOptionPopover from "../popover/ListOptionPopover";
 import CardItem from "./CardItem";
 
 interface Props {
-  tasks: CardData[];
+  cards: CardData[];
   list: ListData;
-  columnId: string;
-  createNewCard: (card: CardData, columnId: string) => void;
+  createNewCard: (card: CardData) => void;
 }
 
-export default function Column({
-  tasks,
-  list,
-  columnId,
-  createNewCard,
-}: Props) {
+export default function List({ cards, list, createNewCard }: Props) {
   const [isCreateCard, setIsCreateCard] = useState(false);
   const ref = useClickOutside(() => {
     setIsCreateCard(false);
   });
   const [cardTitle, setCardTitle] = useState("");
 
-  const handleCreateCard = () => {
+  const handleCreateCard = async () => {
     const newCard = {
       id: `s${new Date().getTime()}`,
       title: cardTitle,
     };
-    createNewCard(newCard, columnId);
+    let pos = 65535;
+    if (cards.length > 0) {
+      pos = cards[cards.length - 1].pos + 65536;
+    }
+    const { data } = await postNewCard({
+      name: cardTitle,
+      list_id: list.id,
+      board_id: list.board_id,
+      pos,
+    });
+
+    createNewCard(data);
     setCardTitle("");
     setIsCreateCard(false);
   };
 
+  useEffect(() => {
+    console.log(cards);
+  }, [cards]);
+
   return (
     <div className="w-[343px] flex-shrink-0 px-3">
       <div className="flex justify-between items-center">
-        <h2>{list.title}</h2>
+        <h2>{list.name}</h2>
         <ListOptionPopover />
       </div>
       <Droppable droppableId={list.id}>
@@ -51,8 +61,8 @@ export default function Column({
             className="space-y-4 mb-5 bg-slate-100 mt-3"
             {...provided.droppableProps}
           >
-            {tasks.map((task, index) => (
-              <CardItem key={task.id} task={task} index={index} />
+            {cards.map((card, index) => (
+              <CardItem key={card.id} card={card} index={index} />
             ))}
             {provided.placeholder}
           </div>

@@ -6,13 +6,13 @@ import { CardData } from "../../types";
 import NiceModal from "@ebay/nice-modal-react";
 
 interface Props {
-  task: CardData;
+  card: CardData;
   index: number;
 }
 
-export default function CardItem({ task, index }: Props) {
+export default function CardItem({ card, index }: Props) {
   return (
-    <Draggable draggableId={task.id} index={index}>
+    <Draggable draggableId={card.id} index={index}>
       {(provided) => (
         <div
           {...provided.draggableProps}
@@ -22,13 +22,13 @@ export default function CardItem({ task, index }: Props) {
           onClick={() => NiceModal.show("card-information")}
         >
           <div className="img-container w-full ">
-            {task.cover && (
-              <img src={task.cover} alt="" className="img-full h-40" />
+            {card.cover && (
+              <img src={card.cover} alt="" className="img-full h-40" />
             )}
           </div>
-          <span className="mt-5">{task.title}</span>
+          <span className="mt-5">{card.name}</span>
           <div className="mt-3">
-            {task.labels && (
+            {card.labels && (
               <ul className="flex space-x-3 text-xs">
                 <li className="px-5 py-2 rounded-full bg-blue-300 text-blue-800 cursor-pointer">
                   Technical
@@ -38,7 +38,7 @@ export default function CardItem({ task, index }: Props) {
           </div>
           <div className="flex justify-between items-center mt-5">
             <div className="w-1/2 h-8 flex space-x-3">
-              {task.members && (
+              {card.members && (
                 <div className="flex space-x-1">
                   <div className="img-container w-8 h-full cursor-pointer">
                     <img
@@ -54,7 +54,7 @@ export default function CardItem({ task, index }: Props) {
               </button>
             </div>
             <div className="flex space-x-2">
-              {task.comments && (
+              {card.comments && (
                 <div className="flex items-center space-x-2 text-sm opacity-60">
                   <span>
                     <BiCommentDetail />
@@ -62,7 +62,7 @@ export default function CardItem({ task, index }: Props) {
                   <span>2</span>
                 </div>
               )}
-              {task.attachments && (
+              {card.attachments && (
                 <div className="flex items-center space-x-2 text-sm opacity-60">
                   <span>
                     <MdAttachFile />
