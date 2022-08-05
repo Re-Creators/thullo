@@ -13,6 +13,7 @@ import CreateList from "../components/board/CreateList";
 import List from "../components/board/List";
 import { fetchSingleBoard } from "../api/services/boards";
 import { useParams } from "react-router-dom";
+import { updateCard } from "../api/services/cards";
 
 const initialData = {
   tasks: {
@@ -86,7 +87,6 @@ export default function Board() {
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result;
-    console.log(result);
     if (!destination) {
       return;
     }
@@ -98,45 +98,72 @@ export default function Board() {
       return;
     }
 
-    // const start = state.columns[source.droppableId as ColumnKey];
-    // const finish = state.columns[destination.droppableId as ColumnKey];
-    // if (source.droppableId === destination.droppableId) {
-    //   const newTaskIds = Array.from(start.taskIds);
-    //   newTaskIds.splice(source.index, 1);
-    //   newTaskIds.splice(destination.index, 0, draggableId);
-    //   const newColumn = {
-    //     ...state.columns[source.droppableId as ColumnKey],
-    //     taskIds: newTaskIds,
-    //   };
-    //   const newState = {
-    //     ...state,
-    //     columns: {
-    //       ...state.columns,
-    //       [newColumn.id]: newColumn,
-    //     },
-    //   };
-    //   setState(newState);
-    //   return;
-    // }
-    // start.taskIds.splice(source.index, 1);
-    // const newStart = {
-    //   ...start,
-    //   taskIds: start.taskIds,
-    // };
-    // finish.taskIds.splice(destination.index, 0, draggableId);
-    // const newFinish = {
-    //   ...finish,
-    //   taskIds: finish.taskIds,
-    // };
-    // const newState = {
-    //   ...state,
-    //   columns: {
-    //     ...state.columns,
-    //     [newStart.id]: newStart,
-    //     [newFinish.id]: newFinish,
-    //   },
-    // };
-    // setState(newState);
+    const sourceList = cards
+      .filter((card) => card.list_id === source.droppableId)
+      .sort((a, b) => a.pos - b.pos);
+    const sourceCard = sourceList[source.index];
+
+    if (source.droppableId === destination.droppableId) {
+      const desCard = sourceList[destination.index];
+
+      if (destination.index === 0) {
+        sourceCard.pos = desCard.pos / 2;
+      } else if (destination.index === sourceList.length - 1) {
+        sourceCard.pos = desCard.pos + 65536;
+      } else if (destination.index > source.index) {
+        sourceCard.pos =
+          (desCard.pos + sourceList[destination.index + 1].pos) / 2;
+      } else {
+        sourceCard.pos =
+          (desCard.pos + sourceList[destination.index - 1].pos) / 2;
+      }
+
+      setCards((prev) => {
+        return prev.map((card) => {
+          if (card.id === sourceCard.id) {
+            return sourceCard;
+          }
+          return card;
+        });
+      });
+
+      updateCard(draggableId, {
+        pos: sourceCard.pos,
+      });
+      return;
+    }
+
+    const destinationList = cards
+      .filter((card) => card.list_id === destination.droppableId)
+      .sort((a, b) => a.pos - b.pos);
+    const destinationCard = destinationList[destination.index];
+
+    if (destinationList.length === 0) {
+      sourceCard.pos = 65535;
+    } else if (destination.index === 0) {
+      sourceCard.pos = destinationCard.pos / 2;
+    } else if (destination.index === destinationList.length) {
+      sourceCard.pos = destinationList[destination.index - 1].pos + 65536;
+    } else {
+      const topCard = destinationList[destination.index - 1].pos;
+      const bottomCard = destinationList[destination.index].pos;
+
+      sourceCard.pos = (topCard + bottomCard) / 2;
+    }
+
+    setCards((prev) => {
+      return prev.map((card) => {
+        if (card.id === draggableId) {
+          sourceCard.list_id = destination.droppableId;
+          return sourceCard;
+        }
+        return card;
+      });
+    });
+    updateCard(draggableId, {
+      pos: sourceCard.pos,
+      list_id: destination.droppableId,
+    });
   };
 
   useEffect(() => {

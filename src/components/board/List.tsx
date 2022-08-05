@@ -44,9 +44,7 @@ export default function List({ cards, list, createNewCard }: Props) {
     setIsCreateCard(false);
   };
 
-  useEffect(() => {
-    console.log(cards);
-  }, [cards]);
+  useEffect(() => {}, [cards]);
 
   return (
     <div className="w-[343px] flex-shrink-0 px-3">
@@ -61,9 +59,11 @@ export default function List({ cards, list, createNewCard }: Props) {
             className="space-y-4 mb-5 bg-slate-100 mt-3"
             {...provided.droppableProps}
           >
-            {cards.map((card, index) => (
-              <CardItem key={card.id} card={card} index={index} />
-            ))}
+            {cards
+              .sort((a, b) => a.pos - b.pos)
+              .map((card, index) => (
+                <CardItem key={card.id} card={card} index={index} />
+              ))}
             {provided.placeholder}
           </div>
         )}
