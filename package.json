@@ -17,7 +17,8 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
     "react-router-dom": "^6.3.0",
-    "react-textarea-autosize": "^8.3.4"
+    "react-textarea-autosize": "^8.3.4",
+    "zustand": "^4.0.0"
   },
   "devDependencies": {
     "@ebay/nice-modal-react": "^1.2.6",
