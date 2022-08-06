@@ -4,13 +4,21 @@ import { BsPlusLg } from "react-icons/bs";
 import { MdAttachFile } from "react-icons/md";
 import { CardData } from "../../types";
 import NiceModal from "@ebay/nice-modal-react";
+import useCardStore from "../../store/useCardStore";
 
 interface Props {
   card: CardData;
   index: number;
+  listName: string;
 }
 
-export default function CardItem({ card, index }: Props) {
+export default function CardItem({ card, index, listName }: Props) {
+  const selectCard = useCardStore((state) => state.selectCard);
+
+  const cardClickHandler = () => {
+    NiceModal.show("card-information", { listName });
+    selectCard(card);
+  };
   return (
     <Draggable draggableId={card.id} index={index}>
       {(provided) => (
@@ -19,7 +27,7 @@ export default function CardItem({ card, index }: Props) {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
           className="w-full p-3 bg-white rounded-lg flex flex-col !cursor-pointer transition-shadow ease-in duration-300 hover:shadow-lg"
-          onClick={() => NiceModal.show("card-information")}
+          onClick={cardClickHandler}
         >
           <div className="img-container w-full ">
             {card.cover && (

@@ -65,7 +65,7 @@ export default function CreateList({ createNewList }: Props) {
       </button>
       <div className={`${isShow ? "flex items-center" : "hidden"} mt-2 `}>
         <button className="btn-blue p-2 text-sm" onClick={createNewListHandler}>
-          Add Card
+          Add List
         </button>
         <button
           className="ml-3 text-gray-400 hover:text-gray-500"

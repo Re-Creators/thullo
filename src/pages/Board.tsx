@@ -4,7 +4,6 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import CardInformationModal from "../components/modals/card-information/CardInformationModal";
 import InviteMemberPopover from "../components/popover/InviteMemberPopover";
 import VisibilityPopover from "../components/popover/VisibilityPopover";
-import { CardData, ListData } from "../types";
 import { useEffect, useState } from "react";
 import NiceModal from "@ebay/nice-modal-react";
 import CreateList from "../components/board/CreateList";
@@ -13,13 +12,13 @@ import { fetchSingleBoard } from "../api/services/boards";
 import { useParams } from "react-router-dom";
 import { updateCard } from "../api/services/cards";
 import shallow from "zustand/shallow";
-import useBoardStore from "../store/useBoardStore";
 import useLists from "../store/useListsStore";
+import useCardStore from "../store/useCardStore";
 
 NiceModal.register("card-information", CardInformationModal);
 
 export default function Board() {
-  const [cards, setCards] = useBoardStore(
+  const [cards, setCards] = useCardStore(
     (state) => [state.cards, state.setCards],
     shallow
   );
@@ -27,7 +26,7 @@ export default function Board() {
     (state) => [state.lists, state.setLists],
     shallow
   );
-  const dragAndDrop = useBoardStore((state) => state.dragAndDrop);
+  const dragAndDrop = useCardStore((state) => state.dragAndDrop);
   const { boardId } = useParams();
 
   const onDragEnd = (result: DropResult) => {

@@ -1,12 +1,18 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 import MainContent from "./MainContent";
 import Actions from "./Actions";
 import NiceModal, { useModal } from "@ebay/nice-modal-react";
+import useCardStore from "../../../store/useCardStore";
 
-const CardInformationModal = NiceModal.create(() => {
+interface Props {
+  listName: string;
+}
+
+const CardInformationModal = NiceModal.create(({ listName }: Props) => {
   const modal = useModal();
+  const card = useCardStore((state) => state.selectedCard);
 
   return (
     <>
@@ -36,23 +42,27 @@ const CardInformationModal = NiceModal.create(() => {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-1/2 transform relative rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <button
-                    className="btn-blue absolute right-4 top-4 p-2 z-10 outline-none"
-                    onClick={modal.hide}
-                  >
-                    <IoCloseSharp fontSize={24} />
-                  </button>
-                  <div className="img-container w-full h-40">
-                    <img
-                      src="https://images.unsplash.com/photo-1658171402816-315e4cb993bb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                      alt=""
-                      className="img-full"
-                    />
-                  </div>
-                  <div className="grid grid-cols-[70%_1fr] gap-10 mt-5">
-                    <MainContent />
-                    <Actions />
-                  </div>
+                  {card && (
+                    <>
+                      <button
+                        className="btn-blue absolute right-4 top-4 p-2 z-10 outline-none"
+                        onClick={modal.hide}
+                      >
+                        <IoCloseSharp fontSize={24} />
+                      </button>
+                      <div className="img-container w-full h-40">
+                        <img
+                          src="https://images.unsplash.com/photo-1658171402816-315e4cb993bb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                          alt=""
+                          className="img-full"
+                        />
+                      </div>
+                      <div className="grid grid-cols-[70%_1fr] gap-10 mt-5">
+                        <MainContent listName={listName} card={card} />
+                        <Actions />
+                      </div>
+                    </>
+                  )}
                 </Dialog.Panel>
               </Transition.Child>
             </div>

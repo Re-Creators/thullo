@@ -40,8 +40,6 @@ export default function List({ cards, list, createNewCard }: Props) {
     setIsCreateCard(false);
   };
 
-  useEffect(() => {}, [cards]);
-
   return (
     <div className="w-[343px] flex-shrink-0 px-3">
       <div className="flex justify-between items-center">
@@ -58,7 +56,12 @@ export default function List({ cards, list, createNewCard }: Props) {
             {cards
               .sort((a, b) => a.pos - b.pos)
               .map((card, index) => (
-                <CardItem key={card.id} card={card} index={index} />
+                <CardItem
+                  key={card.id}
+                  card={card}
+                  index={index}
+                  listName={list.name}
+                />
               ))}
             {provided.placeholder}
           </div>

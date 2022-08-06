@@ -1,4 +1,12 @@
+import { CardData } from "../../types";
 import { supabase } from "../supabaseClient";
+
+interface Card {
+  name?: string;
+  description?: string;
+  pos?: number;
+  list_id?: string;
+}
 
 export const postNewCard = async (card: {
   name: string;
@@ -19,13 +27,7 @@ export const postNewCard = async (card: {
   }
 };
 
-export const updateCard = async (
-  cardId: string,
-  card: {
-    pos: number;
-    list_id?: string;
-  }
-) => {
+export const updateCard = async (cardId: string, card: Card) => {
   try {
     const { data, error } = await supabase
       .from("cards")
