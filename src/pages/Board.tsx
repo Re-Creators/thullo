@@ -14,80 +14,21 @@ import { useParams } from "react-router-dom";
 import { updateCard } from "../api/services/cards";
 import shallow from "zustand/shallow";
 import useBoardStore from "../store/useBoardStore";
-
-const initialData = {
-  tasks: {
-    "task-1": { id: "task-1", title: "Take out the garbage" },
-    "task-2": { id: "task-2", title: "Watch my favorite show" },
-    "task-3": { id: "task-3", title: "Charge my phone" },
-    "task-4": { id: "task-4", title: "Cook dinner" },
-    "task-5": { id: "task-5", title: "Coding Practices" },
-    "task-6": { id: "task-6", title: "English courses" },
-  },
-  columns: {
-    "column-1": {
-      id: "column-1",
-      name: "To do",
-      taskIds: ["task-1", "task-2", "task-3", "task-4"],
-    },
-    "column-2": {
-      id: "column-2",
-      name: "On Progress",
-      taskIds: ["task-5", "task-6"],
-    },
-  },
-  columnOrder: ["column-1", "column-2"],
-};
-
-type ColumnKey = keyof typeof initialData.columns;
-type TaskKey = keyof typeof initialData.tasks;
+import useLists from "../store/useListsStore";
 
 NiceModal.register("card-information", CardInformationModal);
 
 export default function Board() {
-  const [state, setState] = useState(initialData);
   const [cards, setCards] = useBoardStore(
     (state) => [state.cards, state.setCards],
     shallow
   );
+  const [lists, setLists] = useLists(
+    (state) => [state.lists, state.setLists],
+    shallow
+  );
   const dragAndDrop = useBoardStore((state) => state.dragAndDrop);
-  const [lists, setLists] = useState<ListData[]>([]);
   const { boardId } = useParams();
-
-  const createNewCard = (newCard: CardData, columnId: string) => {
-    const newTasks = { ...state.tasks, [newCard.id]: newCard };
-    const columnSelected = state.columns[columnId as ColumnKey];
-    const newColumns = {
-      ...columnSelected,
-      taskIds: [...columnSelected.taskIds, newCard.id],
-    };
-
-    setState({
-      ...state,
-      tasks: newTasks,
-      columns: {
-        ...state.columns,
-        [columnId]: newColumns,
-      },
-    });
-  };
-
-  const createNewList = (title: string) => {
-    const newList = {
-      id: `s${new Date().getTime()}`,
-      title,
-      taskIds: [],
-    };
-
-    setState({
-      ...state,
-      columns: {
-        ...state.columns,
-        [newList.id]: newList,
-      },
-      columnOrder: [...state.columnOrder, newList.id],
-    });
-  };
 
   const onDragEnd = (result: DropResult) => {
     dragAndDrop(result, (cardId, pos, list_id) => {
@@ -154,7 +95,7 @@ export default function Board() {
             />
           ))}
         </DragDropContext>
-        <CreateList createNewList={createNewList} />
+        <CreateList createNewList={() => {}} />
       </div>
     </div>
   );

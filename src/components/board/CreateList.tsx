@@ -4,6 +4,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import { useParams } from "react-router-dom";
 import { postNewList } from "../../api/services/lists";
 import useClickOutside from "../../hooks/useClickOutside";
+import useLists from "../../store/useListsStore";
 
 interface Props {
   createNewList: (title: string) => void;
@@ -11,6 +12,7 @@ interface Props {
 
 export default function CreateList({ createNewList }: Props) {
   const { boardId } = useParams();
+  const addList = useLists((state) => state.addList);
   const containerRef = useClickOutside(() => {
     setIsShow(false);
   });
@@ -23,7 +25,7 @@ export default function CreateList({ createNewList }: Props) {
       name: title,
       board_id: boardId,
     });
-    console.log(data);
+    addList(data);
     createNewList(title);
 
     setTitle("");

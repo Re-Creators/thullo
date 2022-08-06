@@ -24,10 +24,6 @@ export default function List({ cards, list, createNewCard }: Props) {
   const [cardTitle, setCardTitle] = useState("");
 
   const handleCreateCard = async () => {
-    const newCard = {
-      id: `s${new Date().getTime()}`,
-      title: cardTitle,
-    };
     let pos = 65535;
     if (cards.length > 0) {
       pos = cards[cards.length - 1].pos + 65536;

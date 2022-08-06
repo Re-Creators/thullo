@@ -5,12 +5,7 @@ export const postNewList = async (list: {
   board_id?: string;
 }) => {
   try {
-    const { data, error } = await supabase
-      .from("lists")
-      .insert(list, {
-        returning: "minimal",
-      })
-      .single();
+    const { data, error } = await supabase.from("lists").insert(list).single();
 
     if (error) {
       console.error(error);
