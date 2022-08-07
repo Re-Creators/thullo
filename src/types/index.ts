@@ -17,7 +17,7 @@ export interface CardData {
   };
   members?: [];
   comments?: [];
-  labels?: [];
+  labels?: LabelData[];
   list_id: string;
   board_id: string;
   pos: number;
@@ -26,6 +26,13 @@ export interface CardData {
 export interface ListData {
   id: string;
   name: string;
+  board_id: string;
+}
+
+export interface LabelData {
+  id: string;
+  name: string;
+  color: string;
   board_id: string;
 }
 

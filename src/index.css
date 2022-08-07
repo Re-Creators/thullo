@@ -8,7 +8,7 @@ body {
 }
 
 .btn-blue {
-  @apply bg-blue-500 hover:bg-blue-600 active:translate-y-0.5 text-white rounded-lg;
+  @apply bg-blue-500 hover:bg-blue-600 active:translate-y-0.5 text-white rounded-lg disabled:bg-blue-400 disabled:hover:bg-none disabled:active:translate-y-0;
 }
 
 .btn-gray {

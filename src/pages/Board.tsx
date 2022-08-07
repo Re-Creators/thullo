@@ -14,6 +14,8 @@ import { updateCard } from "../api/services/cards";
 import shallow from "zustand/shallow";
 import useLists from "../store/useListsStore";
 import useCardStore from "../store/useCardStore";
+import useLabelStore from "../store/useLabelStore";
+import useBoardStore from "../store/useBoardStore";
 
 NiceModal.register("card-information", CardInformationModal);
 
@@ -26,6 +28,8 @@ export default function Board() {
     (state) => [state.lists, state.setLists],
     shallow
   );
+  const setLabels = useLabelStore.getState().setLabels;
+  const setBoardId = useBoardStore.getState().setBoardId;
   const dragAndDrop = useCardStore((state) => state.dragAndDrop);
   const { boardId } = useParams();
 
@@ -41,8 +45,10 @@ export default function Board() {
   useEffect(() => {
     const fetchBoard = async () => {
       const { data } = await fetchSingleBoard(boardId);
+      setBoardId(boardId || "");
       setLists(data.lists);
       setCards(data.cards);
+      setLabels(data.labels);
     };
     fetchBoard();
   }, []);

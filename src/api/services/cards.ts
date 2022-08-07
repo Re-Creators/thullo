@@ -1,4 +1,4 @@
-import { CardData } from "../../types";
+import { CardData, LabelData } from "../../types";
 import { supabase } from "../supabaseClient";
 
 interface Card {
@@ -10,6 +10,7 @@ interface Card {
     type: string;
     source: string;
   };
+  labels?: LabelData[];
 }
 
 export const postNewCard = async (card: {

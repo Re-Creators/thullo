@@ -28,53 +28,70 @@ export const colors = [
 export const labels = [
   {
     name: "",
-    color: "#219653",
+    color: "red",
   },
   {
     name: "",
-    color: "#F2C94C",
+    color: "orange",
   },
   {
     name: "",
-    color: "#F2994A",
+    color: "pink",
   },
   {
     name: "",
-    color: "#EB5757",
+    color: "lime",
   },
   {
     name: "",
-    color: "#2F80ED",
+    color: "green",
   },
   {
     name: "",
-    color: "#56CCF2",
+    color: "teal",
   },
   {
     name: "",
-    color: "#6FCF97",
+    color: "cyan",
   },
   {
     name: "",
-    color: "#6FCF97",
+    color: "sky",
   },
   {
     name: "",
-    color: "#4F4F4F",
+    color: "blue",
   },
   {
     name: "",
-    color: "#828282",
+    color: "indigo",
   },
   {
     name: "",
-    color: "#BDBDBD",
+    color: "violet",
   },
   {
     name: "",
-    color: "#E0E0E0",
+    color: "amber",
   },
 ];
+
+export const colorPresets = {
+  red: "bg-red-500",
+  blue: "bg-blue-500",
+  indigo: "bg-indigo-500",
+  amber: "bg-amber-500",
+  violet: "bg-violet-500",
+  green: "bg-green-500",
+  lime: "bg-lime-500",
+  orange: "bg-orange-500",
+  pink: "bg-pink-500",
+  cyan: "bg-cyan-500",
+  teal: "bg-teal-500",
+  sky: "bg-sky-500",
+};
+
+export type presetKey = keyof typeof colorPresets;
 
 export const photos = [
   {
