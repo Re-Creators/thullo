@@ -8,7 +8,7 @@ import useBoardStore from "../../store/useBoardStore";
 import useCardStore from "../../store/useCardStore";
 import useLabelStore from "../../store/useLabelStore";
 import { CardData, LabelData } from "../../types";
-import { colorPresets, labels, presetKey } from "../../utils/constants";
+import { labelPresets, labels, presetKey } from "../../utils/constants";
 
 export default function LabelPopover() {
   const boardId = useBoardStore((state) => state.boardId);
@@ -41,7 +41,6 @@ export default function LabelPopover() {
   };
 
   const selectLabelHandler = async (label: LabelData) => {
-    console.log(card.labels);
     let cardLabels = card.labels || [];
     const isLabelExist = cardLabels.some((l) => l.id === label.id);
 
@@ -114,7 +113,7 @@ export default function LabelPopover() {
                     {labels.map((label) => (
                       <div
                         className={`relative rounded-lg cursor-pointer h-10 group overflow-hidden ${
-                          colorPresets[label.color as presetKey]
+                          labelPresets[label.color as presetKey]
                         }`}
                         key={label.color}
                         onClick={() => setLabelSelected(label)}
@@ -145,7 +144,7 @@ export default function LabelPopover() {
                           {boardLabels.map((label) => (
                             <li
                               className={`px-5 py-2 relative rounded-full ${
-                                colorPresets[label.color as presetKey]
+                                labelPresets[label.color as presetKey]
                               } text-white cursor-pointer relative overflow-hidden group`}
                               onClick={() => selectLabelHandler(label)}
                             >

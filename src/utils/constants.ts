@@ -76,7 +76,7 @@ export const labels = [
   },
 ];
 
-export const colorPresets = {
+export const labelPresets = {
   red: "bg-red-500",
   blue: "bg-blue-500",
   indigo: "bg-indigo-500",
@@ -91,7 +91,7 @@ export const colorPresets = {
   sky: "bg-sky-500",
 };
 
-export type presetKey = keyof typeof colorPresets;
+export type presetKey = keyof typeof labelPresets;
 
 export const photos = [
   {

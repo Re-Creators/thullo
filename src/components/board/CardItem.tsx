@@ -5,6 +5,7 @@ import { MdAttachFile } from "react-icons/md";
 import { CardData } from "../../types";
 import NiceModal from "@ebay/nice-modal-react";
 import useCardStore from "../../store/useCardStore";
+import LabelItem from "../shared/LabelItem";
 
 interface Props {
   card: CardData;
@@ -37,10 +38,14 @@ export default function CardItem({ card, index, listName }: Props) {
           <span className="mt-5">{card.name}</span>
           <div className="mt-3">
             {card.labels && (
-              <ul className="flex space-x-3 text-xs">
-                <li className="px-5 py-2 rounded-full bg-blue-300 text-blue-800 cursor-pointer">
-                  Technical
-                </li>
+              <ul className="flex flex-wrap gap-2 text-xs">
+                {card.labels.map((label) => (
+                  <LabelItem
+                    key={label.id}
+                    name={label.name}
+                    color={label.color}
+                  />
+                ))}
               </ul>
             )}
           </div>
