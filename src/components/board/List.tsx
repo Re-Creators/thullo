@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { BsPlusLg } from "react-icons/bs";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { IoCloseSharp } from "react-icons/io5";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import { postNewCard } from "../../api/services/cards";
+import { updateList } from "../../api/services/lists";
 import useClickOutside from "../../hooks/useClickOutside";
+import useListStore from "../../store/useListStore";
 import { CardData, ListData } from "../../types";
 import ListOptionPopover from "../popover/ListOptionPopover";
 import CardItem from "./CardItem";
@@ -22,7 +24,7 @@ export default function List({ cards, list, createNewCard }: Props) {
     setIsCreateCard(false);
   });
   const [cardTitle, setCardTitle] = useState("");
-
+  const updateListInfo = useListStore.getState().updateListInfo;
   const handleCreateCard = async () => {
     let pos = 65535;
     if (cards.length > 0) {
@@ -40,11 +42,29 @@ export default function List({ cards, list, createNewCard }: Props) {
     setIsCreateCard(false);
   };
 
+  const nameChangeHandler = async (
+    e: React.FocusEvent<HTMLTextAreaElement>
+  ) => {
+    const { data, error } = await updateList(list.id, {
+      name: e.currentTarget.value,
+    });
+
+    if (!error) {
+      updateListInfo(data);
+    }
+  };
+
   return (
     <div className="w-[343px] flex-shrink-0 px-3">
       <div className="flex justify-between items-center">
-        <h2>{list.name}</h2>
-        <ListOptionPopover />
+        <ReactTextareaAutosize
+          className="w-full bg-transparent focus:bg-white p-2 mr-2 outline-blue-500 resize-none h-[40px] overflow-hidden"
+          maxLength={512}
+          spellCheck={false}
+          onBlur={nameChangeHandler}
+          defaultValue={list.name}
+        />
+        <ListOptionPopover listId={list.id} />
       </div>
       <Droppable droppableId={list.id}>
         {(provided) => (

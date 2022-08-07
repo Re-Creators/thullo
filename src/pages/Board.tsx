@@ -12,7 +12,7 @@ import { fetchSingleBoard } from "../api/services/boards";
 import { useParams } from "react-router-dom";
 import { updateCard } from "../api/services/cards";
 import shallow from "zustand/shallow";
-import useLists from "../store/useListsStore";
+import useListStore from "../store/useListStore";
 import useCardStore from "../store/useCardStore";
 import useLabelStore from "../store/useLabelStore";
 import useBoardStore from "../store/useBoardStore";
@@ -24,7 +24,7 @@ export default function Board() {
     (state) => [state.cards, state.setCards],
     shallow
   );
-  const [lists, setLists] = useLists(
+  const [lists, setLists] = useListStore(
     (state) => [state.lists, state.setLists],
     shallow
   );
