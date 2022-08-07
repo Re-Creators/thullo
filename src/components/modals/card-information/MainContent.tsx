@@ -12,7 +12,9 @@ interface Props {
 }
 
 export default function MainContent({ listName, card }: Props) {
-  const updateCards = useCardStore((state) => state.updateCards);
+  const updateCardInformation = useCardStore(
+    (state) => state.updateCardInformation
+  );
 
   const nameChangeHandler = async (e: FocusEvent<HTMLInputElement>) => {
     const name = e.target.value;
@@ -21,7 +23,7 @@ export default function MainContent({ listName, card }: Props) {
       const { data } = await updateCard(card.id, {
         name,
       });
-      updateCards(data);
+      updateCardInformation(data);
     }
   };
   return (

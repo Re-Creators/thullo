@@ -12,7 +12,7 @@ interface CardState {
     result: DropResult,
     dropCallback: (cardId: string, post: number, list_id?: string) => void
   ) => void;
-  updateCards: (card: CardData) => void;
+  updateCardInformation: (card: CardData) => void;
 }
 
 const useCardStore = create<CardState>()(
@@ -21,14 +21,14 @@ const useCardStore = create<CardState>()(
     selectedCard: null,
     selectCard: (card: CardData) => set((state) => ({ selectedCard: card })),
     setCards: (newCards) => set((state) => ({ cards: newCards })),
-    updateCards: (card) => {
+    updateCardInformation: (card) => {
       const newCards = get().cards.map((c) => {
         if (c.id === card.id) {
           return card;
         }
         return c;
       });
-      set((state) => ({ cards: newCards }));
+      set((state) => ({ cards: newCards, selectedCard: card }));
     },
     dragAndDrop: (result, dropCallback) =>
       set((state) => {

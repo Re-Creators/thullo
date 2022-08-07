@@ -5,7 +5,10 @@ export interface Supabase extends Omit<definitions, ""> {}
 export interface CardData {
   id: string;
   name: string;
-  cover?: string;
+  cover?: {
+    type: string;
+    source: string;
+  };
   description?: string;
   attachments?: {
     id: string;

@@ -2,9 +2,28 @@ import { Popover, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsImageFill } from "react-icons/bs";
+import { updateCard } from "../../api/services/cards";
+import useCardStore from "../../store/useCardStore";
 import { photos } from "../../utils/constants";
 
 export default function CoverPopover() {
+  const updateCardInformation = useCardStore(
+    (state) => state.updateCardInformation
+  );
+  const card = useCardStore((state) => state.selectedCard);
+
+  const chooseCoverHandler = async (source: string) => {
+    if (card) {
+      const { data } = await updateCard(card.id, {
+        cover: {
+          type: "Image",
+          source,
+        },
+      });
+      console.log(data);
+      updateCardInformation(data);
+    }
+  };
   return (
     <Popover className="relative">
       {() => (
@@ -46,6 +65,7 @@ export default function CoverPopover() {
                       <div
                         className="img-container h-14 cursor-pointer group relative"
                         key={photo.id}
+                        onClick={() => chooseCoverHandler(photo.image)}
                       >
                         <img src={photo.image} alt="" className="img-full" />
                         <div

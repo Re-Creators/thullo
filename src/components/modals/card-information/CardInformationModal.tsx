@@ -50,13 +50,15 @@ const CardInformationModal = NiceModal.create(({ listName }: Props) => {
                       >
                         <IoCloseSharp fontSize={24} />
                       </button>
-                      <div className="img-container w-full h-40">
-                        <img
-                          src="https://images.unsplash.com/photo-1658171402816-315e4cb993bb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                          alt=""
-                          className="img-full"
-                        />
-                      </div>
+                      {card.cover && (
+                        <div className="img-container w-full h-40">
+                          <img
+                            src={card.cover.source}
+                            alt=""
+                            className="img-full"
+                          />
+                        </div>
+                      )}
                       <div className="grid grid-cols-[70%_1fr] gap-10 mt-5">
                         <MainContent listName={listName} card={card} />
                         <Actions />

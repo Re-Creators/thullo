@@ -6,6 +6,10 @@ interface Card {
   description?: string;
   pos?: number;
   list_id?: string;
+  cover?: {
+    type: string;
+    source: string;
+  };
 }
 
 export const postNewCard = async (card: {

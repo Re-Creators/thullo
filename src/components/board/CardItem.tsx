@@ -31,7 +31,7 @@ export default function CardItem({ card, index, listName }: Props) {
         >
           <div className="img-container w-full ">
             {card.cover && (
-              <img src={card.cover} alt="" className="img-full h-40" />
+              <img src={card.cover.source} alt="" className="img-full h-40" />
             )}
           </div>
           <span className="mt-5">{card.name}</span>
