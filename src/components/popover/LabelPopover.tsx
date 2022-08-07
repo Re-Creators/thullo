@@ -41,11 +41,12 @@ export default function LabelPopover() {
   };
 
   const selectLabelHandler = async (label: LabelData) => {
+    console.log(card.labels);
     let cardLabels = card.labels || [];
     const isLabelExist = cardLabels.some((l) => l.id === label.id);
 
     if (isLabelExist) {
-      cardLabels = cardLabels.filter((label) => label.id !== label.id);
+      cardLabels = cardLabels.filter((l) => l.id !== label.id);
     } else {
       cardLabels.push(label);
     }
@@ -70,8 +71,6 @@ export default function LabelPopover() {
       setLabelSelected(null);
     }
   }, [isOpen]);
-
-  console.log("Rerender");
 
   return (
     <Popover className="relative">
