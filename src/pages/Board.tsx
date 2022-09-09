@@ -30,6 +30,7 @@ export default function Board() {
   );
   const setLabels = useLabelStore.getState().setLabels;
   const setBoardId = useBoardStore.getState().setBoardId;
+  const setBoard = useBoardStore.getState().setBoard;
   const dragAndDrop = useCardStore((state) => state.dragAndDrop);
   const { boardId } = useParams();
 
@@ -45,6 +46,7 @@ export default function Board() {
   useEffect(() => {
     const fetchBoard = async () => {
       const { data } = await fetchSingleBoard(boardId);
+      setBoard(data);
       setBoardId(boardId || "");
       setLists(data.lists);
       setCards(data.cards);

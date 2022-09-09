@@ -10,7 +10,7 @@ function App() {
       <TopBar />
       <Routes>
         <Route path="/" element={<Workspace />} />
-        <Route path="/SignIn" element={<SignIn />} />
+        <Route path="/signin" element={<SignIn />} />
         <Route path="/board/:boardId" element={<Board />} />
       </Routes>
     </div>
