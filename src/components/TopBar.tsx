@@ -10,7 +10,7 @@ function TopBar() {
 
   console.log(location);
   return (
-    <nav className="px-5 bg-white shadow-md flex justify-between items-center relative z-[1] h-[70px] ">
+    <nav className="fixed top-0 inset-x-0 px-5 bg-white shadow-md flex justify-between items-center z-[1] h-[70px] ">
       <div className="flex items-center">
         <Link to="/">
           <img src={Logo} alt="Logo" />

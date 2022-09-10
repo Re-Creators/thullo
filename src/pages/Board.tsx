@@ -16,10 +16,12 @@ import useListStore from "../store/useListStore";
 import useCardStore from "../store/useCardStore";
 import useLabelStore from "../store/useLabelStore";
 import useBoardStore from "../store/useBoardStore";
+import BoardMenu from "../components/board/BoardMenu";
 
 NiceModal.register("card-information", CardInformationModal);
 
 export default function Board() {
+  const [showMenu, setShowMenu] = useState(false);
   const [cards, setCards] = useCardStore(
     (state) => [state.cards, state.setCards],
     shallow
@@ -56,7 +58,8 @@ export default function Board() {
   }, []);
 
   return (
-    <div className="bg-white min-h-screen px-8 py-16">
+    <div className="bg-white min-h-screen px-8 py-8 relative">
+      <BoardMenu isShowing={showMenu} setIsShowing={setShowMenu} />
       <div className="flex justify-between h-10">
         <div className="flex">
           <VisibilityPopover />
@@ -84,7 +87,10 @@ export default function Board() {
             </InviteMemberPopover>
           </div>
         </div>
-        <button className="btn-gray justify-center px-8 py-3 ">
+        <button
+          className="btn-gray justify-center px-8 py-3 "
+          onClick={() => setShowMenu(!showMenu)}
+        >
           <MdOutlineMoreHoriz fontSize={24} />
           <span className="text-sm ml-3">Show Menu</span>
         </button>
