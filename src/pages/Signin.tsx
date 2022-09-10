@@ -1,7 +1,7 @@
 import React, { FormEvent, FormEventHandler, useState } from "react";
 import { supabase } from "../api/supabaseClient";
 
-export default function SignIn() {
+export default function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -39,7 +39,7 @@ export default function SignIn() {
             htmlFor="email"
             className="block text-gray-700 text-sm font-bold mb-2"
           >
-            Email
+            Password
           </label>
           <input
             type="password"
