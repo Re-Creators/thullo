@@ -4,6 +4,8 @@ import { AiOutlineClose } from "react-icons/ai";
 import { HiUserCircle } from "react-icons/hi";
 import Description from "./Description";
 import Team from "./Team";
+import useBoardStore from "../../store/useBoardStore";
+import shallow from "zustand/shallow";
 
 interface Props {
   isShowing: boolean;
@@ -11,6 +13,12 @@ interface Props {
 }
 
 export default function BoardMenu({ isShowing, setIsShowing }: Props) {
+  const [board, setBoard] = useBoardStore(
+    (state) => [state.board, state.setBoard],
+    shallow
+  );
+
+  console.log(board);
   return (
     <Transition.Root show={isShowing} as={Fragment}>
       <Dialog as={Fragment} onClose={() => {}}>
