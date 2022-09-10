@@ -10,6 +10,9 @@ body {
 .btn-blue {
   @apply bg-blue-500 hover:bg-blue-600 active:translate-y-0.5 text-white rounded-lg disabled:bg-blue-400 disabled:hover:bg-none disabled:active:translate-y-0;
 }
+.btn-green {
+  @apply bg-green-500 hover:bg-green-600 active:translate-y-0.5 text-white rounded-lg disabled:bg-green-400 disabled:hover:bg-none disabled:active:translate-y-0;
+}
 
 .btn-gray {
   @apply bg-gray-200 hover:bg-gray-300 active:translate-y-0.5 text-gray-600 rounded-lg flex items-center outline-none;
