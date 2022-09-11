@@ -93,6 +93,7 @@ export default function List({ cards, list, createNewCard }: Props) {
             <ReactTextareaAutosize
               className="resize-none outline-none min-h-[50px]"
               placeholder="Title for new card.."
+              spellCheck={false}
               autoFocus
               value={cardTitle}
               onChange={(e) => setCardTitle(e.target.value)}

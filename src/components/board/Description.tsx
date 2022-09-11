@@ -57,6 +57,7 @@ export default function Description({ text, setBoard }: Props) {
             text.length === 0 && "bg-slate-100"
           } p-3 resize-none h-fit-content min-h-[200px]  overflow-hidden focus:outline-blue-500 focus:placeholder:opacity-50 placeholder:text-gray-300`}
           placeholder="Add more detailed description.."
+          spellCheck={false}
           defaultValue={descriptionText}
           onFocus={() => setEditMode(true)}
           onBlur={() => {

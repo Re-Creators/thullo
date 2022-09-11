@@ -55,6 +55,7 @@ export default function Description({ text, cardId }: Props) {
           } p-3 resize-none h-fit-content min-h-[200px]  placeholder:text-black overflow-hidden focus:outline-blue-500 focus:placeholder:opacity-50`}
           placeholder="Add more detailed description.."
           defaultValue={descriptionText}
+          spellCheck={false}
           onFocus={() => setEditMode(true)}
           ref={ref}
         />
