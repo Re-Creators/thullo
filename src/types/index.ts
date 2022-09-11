@@ -36,6 +36,13 @@ export interface LabelData {
   board_id: string;
 }
 
+export interface Profile {
+  id: string;
+  username: string;
+  avatar_url: string;
+  updated_at: string;
+}
+
 export type CoverType = "Image" | "Color";
 
 export interface BoardData {
@@ -46,8 +53,10 @@ export interface BoardData {
     type: CoverType;
     source: string;
   };
+  description: string;
   is_private: boolean;
   user_id?: string;
+  profiles: Profile;
 }
 
 export interface DragAndDrop {

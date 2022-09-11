@@ -1,13 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { MdModeEditOutline, MdOutlineDescription } from "react-icons/md";
+import { useParams } from "react-router-dom";
 import ReactTextareaAutosize from "react-textarea-autosize";
+import { updateDescription } from "../../api/services/boards";
+import useBoardStore from "../../store/useBoardStore";
+import { BoardData } from "../../types";
 
 interface Props {
   text: string;
+  setBoard: (board: BoardData) => void;
 }
 
-export default function Description({ text }: Props) {
+export default function Description({ text, setBoard }: Props) {
   const [descriptionText, setDescriptionText] = useState(text);
+  const updateBoardDesc = useBoardStore.getState().updateBoardDesc;
+  const { boardId } = useParams();
   const ref = useRef<HTMLTextAreaElement>(null);
   const [editMode, setEditMode] = useState(false);
 
@@ -18,7 +25,13 @@ export default function Description({ text }: Props) {
 
   const saveHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log("Save");
+    setEditMode(false);
+
+    if (ref.current) {
+      ref.current.blur();
+      await updateDescription(boardId as string, ref.current.value);
+      updateBoardDesc(ref.current.value);
+    }
   };
 
   return (

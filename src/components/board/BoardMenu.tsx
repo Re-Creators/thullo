@@ -6,6 +6,7 @@ import Description from "./Description";
 import Team from "./Team";
 import useBoardStore from "../../store/useBoardStore";
 import shallow from "zustand/shallow";
+import moment from "moment";
 
 interface Props {
   isShowing: boolean;
@@ -61,14 +62,17 @@ export default function BoardMenu({ isShowing, setIsShowing }: Props) {
                             />
                           </div>
                           <div className="ml-3">
-                            <h2>Aimer</h2>
+                            <h2>{board?.profiles.username}</h2>
                             <p className="text-gray-400 text-xs">
-                              on 4 july, 2020
+                              on {moment(board?.created_at).format("ll")}
                             </p>
                           </div>
                         </div>
                       </div>
-                      <Description text="" />
+                      <Description
+                        text={board?.description || ""}
+                        setBoard={setBoard}
+                      />
                       <Team />
                     </div>
                   </div>
