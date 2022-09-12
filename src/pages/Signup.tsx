@@ -1,5 +1,5 @@
 import React, { FormEvent, useState } from "react";
-import { updateUsername } from "../api/services/user";
+import { updateUser } from "../api/services/user";
 import { supabase } from "../api/supabaseClient";
 
 export default function Signup() {
@@ -19,7 +19,7 @@ export default function Signup() {
       console.log("Error");
     } else {
       if (user) {
-        await updateUsername(user, username);
+        await updateUser(user, username);
       } else {
         // TODO: add appropriate error handling
       }

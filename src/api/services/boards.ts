@@ -20,7 +20,9 @@ export const fetchSingleBoard = async (boardId?: string) => {
   try {
     const { data, error } = await supabase
       .from("boards")
-      .select("*, lists(id, name, board_id), cards(*), labels(*), profiles(*)")
+      .select(
+        "*, lists(id, name, board_id), cards(*), labels(*), profiles(*), members(id:user_id, profile:profiles(username, avatar_url))"
+      )
       .eq("id", boardId)
       .single();
 

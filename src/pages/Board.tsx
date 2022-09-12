@@ -17,6 +17,7 @@ import useCardStore from "../store/useCardStore";
 import useLabelStore from "../store/useLabelStore";
 import useBoardStore from "../store/useBoardStore";
 import BoardMenu from "../components/board/BoardMenu";
+import Members from "../components/board/Members";
 
 NiceModal.register("card-information", CardInformationModal);
 
@@ -64,20 +65,7 @@ export default function Board() {
         <div className="flex">
           <VisibilityPopover />
           <div className="ml-5 flex space-x-3">
-            <div className="img-container w-10 h-10 cursor-pointer">
-              <img
-                src="https://pbs.twimg.com/media/FDRw7kCagAAfb0b?format=jpg&name=900x900"
-                alt=""
-                className="img-full"
-              />
-            </div>
-            <div className="img-container w-10 h-10 cursor-pointer">
-              <img
-                src="https://images.unsplash.com/photo-1658171402816-315e4cb993bb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                alt=""
-                className="img-full"
-              />
-            </div>
+            <Members />
             <InviteMemberPopover
               title="Invite to board"
               description="Search users you want to invite to"

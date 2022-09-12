@@ -43,6 +43,14 @@ export interface Profile {
   updated_at: string;
 }
 
+export interface MemberData {
+  id: string;
+  profile: {
+    username: string;
+    avatar_url: string;
+  };
+}
+
 export type CoverType = "Image" | "Color";
 
 export interface BoardData {
@@ -57,6 +65,7 @@ export interface BoardData {
   is_private: boolean;
   user_id?: string;
   profiles: Profile;
+  members: MemberData[];
 }
 
 export interface DragAndDrop {
