@@ -18,6 +18,8 @@ import useLabelStore from "../store/useLabelStore";
 import useBoardStore from "../store/useBoardStore";
 import BoardMenu from "../components/board/BoardMenu";
 import Members from "../components/board/Members";
+import { Popover } from "@headlessui/react";
+import WrapperPopover from "../components/popover/WrapperPopover";
 
 NiceModal.register("card-information", CardInformationModal);
 
@@ -66,13 +68,12 @@ export default function Board() {
           <VisibilityPopover />
           <div className="ml-5 flex space-x-3">
             <Members />
-            <InviteMemberPopover
-              title="Invite to board"
-              description="Search users you want to invite to"
-              className="btn-blue px-3 h-full outline-none"
-            >
-              <BsPlusLg />
-            </InviteMemberPopover>
+            <WrapperPopover>
+              <InviteMemberPopover
+                title="Invite to board"
+                description="Search users you want to invite to"
+              />
+            </WrapperPopover>
           </div>
         </div>
         <button

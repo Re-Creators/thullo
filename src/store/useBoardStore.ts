@@ -1,6 +1,6 @@
 import create from "zustand";
 import { devtools } from "zustand/middleware";
-import { BoardData } from "../types";
+import { BoardData, MemberData } from "../types";
 
 interface BoardState {
   boardId: string;
@@ -8,6 +8,7 @@ interface BoardState {
   setBoard: (newBoard: BoardData) => void;
   setBoardId: (boardId: string) => void;
   updateBoardDesc: (desc: string) => void;
+  updateBoardMember: (newMember: MemberData[]) => void;
 }
 
 const useBoardStore = create<BoardState>()(
@@ -21,6 +22,13 @@ const useBoardStore = create<BoardState>()(
         let board = JSON.parse(JSON.stringify(state.board));
 
         board.description = description;
+        return { board };
+      }),
+    updateBoardMember: (newMember) =>
+      set((state) => {
+        let board = JSON.parse(JSON.stringify(state.board));
+
+        board.members = newMember;
         return { board };
       }),
   }))

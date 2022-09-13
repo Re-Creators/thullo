@@ -1,78 +1,112 @@
-import { Popover, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
+import { searchUser } from "../../api/services/user";
+import debounce from "lodash.debounce";
+import { Profile } from "../../types";
+import { fetchMember, postMember } from "../../api/services/members";
+import useBoardStore from "../../store/useBoardStore";
 
 interface Props {
   title: String;
   description: String;
-  className: string;
-  children: React.ReactNode;
 }
 
-export default function InviteMemberPopover({
-  title,
-  description,
-  className,
-  children,
-}: Props) {
+export default function InviteMemberPopover({ title, description }: Props) {
+  const [keyword, setKeyword] = useState("");
+  const boardId = useBoardStore((state) => state.boardId);
+  const [result, setResult] = useState<Profile[]>([]);
+  const [selectedUser, setSelectedUser] = useState<Profile[]>([]);
+
+  const updateBoardMember = useBoardStore.getState().updateBoardMember;
+
+  const handleSelectUser = async (user: Profile) => {
+    const exist = selectedUser.find((data) => data.id === user.id);
+    setSelectedUser((oldValue) => {
+      if (exist) {
+        return oldValue.filter((data) => data.id !== user.id);
+      }
+      return [...oldValue, user];
+    });
+  };
+
+  const handleInviteUser = async () => {
+    const members = selectedUser.map((user) => ({
+      user_id: user.id,
+      board_id: boardId,
+    }));
+    await postMember(members);
+    const { data } = await fetchMember(boardId);
+    updateBoardMember(data);
+  };
+
+  const doSearch = useMemo(
+    () =>
+      debounce(async (keyword) => {
+        const { data } = await searchUser(keyword);
+        setResult(data || []);
+      }, 1000),
+    []
+  );
+
+  const checkIsSelected = (id: string) => {
+    return selectedUser.some((data) => data.id === id);
+  };
+
+  useEffect(() => {
+    if (keyword.length > 3) {
+      doSearch(keyword);
+    }
+  }, [keyword, doSearch]);
+
   return (
-    <Popover className="relative">
-      {() => (
-        <>
-          <Popover.Button className={className}>{children}</Popover.Button>
-          <Transition
-            as={Fragment}
-            enter="transition ease-out duration-200"
-            enterFrom="opacity-0 translate-y-1"
-            enterTo="opacity-100 translate-y-0"
-            leave="transition ease-in duration-150"
-            leaveFrom="opacity-100 translate-y-0"
-            leaveTo="opacity-0 translate-y-1"
-          >
-            <Popover.Panel className="absolute w-80 left-0 z-10 mt-3  transform px-4 sm:px-0 ">
-              <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 ">
-                <div className="bg-white p-4 border">
-                  <div>
-                    <h2 className="font-semibold">{title}</h2>
-                    <p className="mt-1 text-gray-400 text-sm">{description}</p>
-                  </div>
-                  <div className="mt-6 relative w-full overflow-hidden bg-white shadow-md border rounded-lg">
-                    <input
-                      type="text"
-                      className="outline-none p-3 pr-16 text-sm w-full"
-                      placeholder="User..."
-                    />
-                    <button className="btn-blue absolute right-1 top-1 bottom-1  px-3 ">
-                      <AiOutlineSearch size={24} />
-                    </button>
-                  </div>
-                  <div className="mt-5 p-3 border shadow-lg rounded-lg">
-                    <div className="flex space-x-3 items-center hover:bg-gray-300 p-2 cursor-pointer rounded-lg">
-                      <div className="w-10 h-10 rounded-xl overflow-hidden">
-                        <div className="w-full h-full bg-slate-500 flex items-center justify-center text-white">
-                          CA
-                        </div>
-                      </div>
-                      <div>Carl Adamantite</div>
-                    </div>
-                    <div className="flex space-x-3 items-center hover:bg-gray-300 p-2 cursor-pointer rounded-lg">
-                      <div className="w-10 h-10 rounded-xl overflow-hidden">
-                        <div className="w-full h-full bg-slate-500 flex items-center justify-center text-white">
-                          CA
-                        </div>
-                      </div>
-                      <div>Carl Adamantite</div>
-                    </div>
-                  </div>
-                  <div className="flex justify-center">
-                    <button className="btn-blue mt-5 w-1/2 py-2">Invite</button>
-                  </div>
-                </div>
+    <div className="bg-white p-4 border">
+      <div>
+        <h2 className="font-semibold">{title}</h2>
+        <p className="mt-1 text-gray-400 text-sm">{description}</p>
+      </div>
+      <div className="mt-6 relative w-full overflow-hidden bg-white shadow-md border rounded-lg">
+        <input
+          type="text"
+          className="outline-none p-3 pr-16 text-sm w-full"
+          placeholder="User..."
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+        />
+        <button className="btn-blue absolute right-1 top-1 bottom-1 px-3 ">
+          <AiOutlineSearch size={24} />
+        </button>
+      </div>
+      {result.length > 0 && (
+        <div className="mt-5 p-2 border shadow-md rounded-lg max-h-[200px] overflow-auto space-y-2">
+          {result.map((user) => (
+            <div
+              className={`flex ${
+                checkIsSelected(user.id) ? "bg-gray-100" : ""
+              } space-x-3 items-center hover:bg-gray-100 p-2 cursor-pointer rounded-lg`}
+              key={user.id}
+              onClick={() => handleSelectUser(user)}
+            >
+              <div className="w-10 h-10 rounded-xl overflow-hidden">
+                <img
+                  src={user.avatar_url}
+                  alt={user.username}
+                  className="w-full h-full object-cover object-center bg-slate-500 flex items-center justify-center text-white"
+                />
               </div>
-            </Popover.Panel>
-          </Transition>
-        </>
+              <div>{user.username}</div>
+            </div>
+          ))}
+        </div>
       )}
-    </Popover>
+      <div className="flex justify-center ">
+        <button
+          className="btn-blue mt-5 w-1/2 py-2 disabled:bg-gray-400"
+          disabled={selectedUser.length === 0}
+          onClick={handleInviteUser}
+        >
+          Invite
+        </button>
+      </div>
+    </div>
   );
 }

@@ -1,4 +1,3 @@
-import React from "react";
 import useBoardStore from "../../store/useBoardStore";
 
 export default function Members() {
@@ -7,7 +6,7 @@ export default function Members() {
   return (
     <>
       {board?.members.map((member) => (
-        <div className="img-container w-10 h-10 cursor-pointer">
+        <div className="img-container w-10 h-10 cursor-pointer" key={member.id}>
           <img src={member.profile.avatar_url} alt="" className="img-full" />
         </div>
       ))}

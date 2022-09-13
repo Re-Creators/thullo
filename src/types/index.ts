@@ -39,6 +39,7 @@ export interface LabelData {
 export interface Profile {
   id: string;
   username: string;
+  email: string;
   avatar_url: string;
   updated_at: string;
 }

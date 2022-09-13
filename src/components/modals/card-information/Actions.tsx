@@ -12,14 +12,14 @@ export default function Actions() {
         <span className="ml-3">Actions</span>
       </div>
       <div className="mt-5 space-y-3">
-        <InviteMemberPopover
+        {/* <InviteMemberPopover
           title="Members"
           description="Assign members to this card"
           className="btn-gray w-full px-3 py-1.5"
         >
           <BsPeopleFill />
           <span className="ml-2">Members</span>
-        </InviteMemberPopover>
+        </InviteMemberPopover> */}
         <LabelPopover />
         <CoverPopover />
       </div>

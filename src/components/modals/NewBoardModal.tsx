@@ -50,7 +50,7 @@ const NewBoardModal = NiceModal.create(({ createNewBoard }: Props) => {
         source: cover.cover,
       },
       is_private: isPrivate,
-    });
+    } as BoardData);
     reset();
     modal.hide();
   };

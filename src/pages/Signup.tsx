@@ -10,19 +10,21 @@ export default function Signup() {
   const handleSignup = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    let { user, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
+    let { error } = await supabase.auth.signUp(
+      {
+        email,
+        password,
+      },
+      {
+        data: {
+          username,
+          avatar_url: `https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${username}`,
+        },
+      }
+    );
     if (error) {
       // TODO: add appropriate error handling
       console.log("Error");
-    } else {
-      if (user) {
-        await updateUser(user, username);
-      } else {
-        // TODO: add appropriate error handling
-      }
     }
   };
 
