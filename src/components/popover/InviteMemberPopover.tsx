@@ -17,9 +17,30 @@ export default function InviteMemberPopover({ title, description }: Props) {
   const [result, setResult] = useState<Profile[]>([]);
   const [selectedUser, setSelectedUser] = useState<Profile[]>([]);
 
+  const board = useBoardStore((state) => state.board);
   const updateBoardMember = useBoardStore.getState().updateBoardMember;
 
+  const doSearch = useMemo(
+    () =>
+      debounce(async (keyword) => {
+        const { data } = await searchUser(keyword);
+        setResult(data || []);
+      }, 1000),
+    []
+  );
+
+  const checkIsSelected = (id: string) =>
+    selectedUser.some((data) => data.id === id);
+  const checkIsMember = (id: string) => {
+    if (board?.members) {
+      return board.members.some((data) => data.id === id);
+    }
+    return false;
+  };
+
   const handleSelectUser = async (user: Profile) => {
+    if (checkIsMember(user.id)) return;
+
     const exist = selectedUser.find((data) => data.id === user.id);
     setSelectedUser((oldValue) => {
       if (exist) {
@@ -39,25 +60,13 @@ export default function InviteMemberPopover({ title, description }: Props) {
     updateBoardMember(data);
   };
 
-  const doSearch = useMemo(
-    () =>
-      debounce(async (keyword) => {
-        const { data } = await searchUser(keyword);
-        setResult(data || []);
-      }, 1000),
-    []
-  );
-
-  const checkIsSelected = (id: string) => {
-    return selectedUser.some((data) => data.id === id);
-  };
-
   useEffect(() => {
     if (keyword.length > 3) {
       doSearch(keyword);
     }
   }, [keyword, doSearch]);
 
+  console.log("Rerender");
   return (
     <div className="bg-white p-4 border">
       <div>
@@ -82,7 +91,11 @@ export default function InviteMemberPopover({ title, description }: Props) {
             <div
               className={`flex ${
                 checkIsSelected(user.id) ? "bg-gray-100" : ""
-              } space-x-3 items-center hover:bg-gray-100 p-2 cursor-pointer rounded-lg`}
+              } space-x-3 items-center hover:bg-gray-100 p-2 ${
+                checkIsMember(user.id)
+                  ? "cursor-not-allowed bg-gray-100"
+                  : "cursor-pointer"
+              } rounded-lg`}
               key={user.id}
               onClick={() => handleSelectUser(user)}
             >
