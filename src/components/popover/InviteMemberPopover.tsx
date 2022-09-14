@@ -33,7 +33,7 @@ export default function InviteMemberPopover({ title, description }: Props) {
     selectedUser.some((data) => data.id === id);
   const checkIsMember = (id: string) => {
     if (board?.members) {
-      return board.members.some((data) => data.id === id);
+      return board.members.some((data) => data.profile.id === id);
     }
     return false;
   };

@@ -45,8 +45,9 @@ export interface Profile {
 }
 
 export interface MemberData {
-  id: string;
+  id: number;
   profile: {
+    id: string;
     username: string;
     avatar_url: string;
   };

@@ -10,7 +10,7 @@ export const fetchMember = async (boardId: string) => {
   try {
     const { data, error } = await supabase
       .from("members")
-      .select("id:user_id, profile:profiles(username, avatar_url)")
+      .select("id, profile:profiles(id, username, avatar_url)")
       .eq("board_id", boardId);
 
     if (error) {
@@ -38,5 +38,23 @@ export const postMember = async (members: Member[]) => {
     return { data, error: null };
   } catch (err) {
     return { data: null, error: err };
+  }
+};
+
+export const deleteMember = async (memberId: number) => {
+  try {
+    const { data, error } = await supabase
+      .from("members")
+      .delete()
+      .eq("id", memberId);
+
+    if (error) {
+      console.error(error);
+      return { data: [], error };
+    }
+
+    return { data, error: null };
+  } catch (error) {
+    return { data: [], error };
   }
 };

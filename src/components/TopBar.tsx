@@ -3,9 +3,11 @@ import Logo from "../assets/images/Logo.svg";
 import { AiOutlineCaretDown } from "react-icons/ai";
 import useBoardStore from "../store/useBoardStore";
 import { BsFillGrid3X3GapFill } from "react-icons/bs";
+import { supabase } from "../api/supabaseClient";
 
 function TopBar() {
   const board = useBoardStore((state) => state.board);
+  const user = supabase.auth.user();
   const { pathname } = useLocation();
 
   return (
@@ -46,7 +48,7 @@ function TopBar() {
               className="w-full h-full object-cover object-center"
             />
           </div>
-          <div>Aimer</div>
+          <div>{user?.user_metadata.username}</div>
           <button>
             <AiOutlineCaretDown />
           </button>
