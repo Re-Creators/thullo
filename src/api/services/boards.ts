@@ -32,7 +32,7 @@ export const fetchSingleBoard = async (boardId?: string) => {
     }
 
     return { data, error: null };
-  } catch (error) {
+  } catch (error: any) {
     return { data: [], error };
   }
 };

@@ -18,8 +18,8 @@ import useLabelStore from "../store/useLabelStore";
 import useBoardStore from "../store/useBoardStore";
 import BoardMenu from "../components/board/BoardMenu";
 import Members from "../components/board/Members";
-import { Popover } from "@headlessui/react";
 import WrapperPopover from "../components/popover/WrapperPopover";
+import useErrorStore from "../store/useErrorStore";
 
 NiceModal.register("card-information", CardInformationModal);
 
@@ -36,6 +36,7 @@ export default function Board() {
   const setLabels = useLabelStore.getState().setLabels;
   const setBoardId = useBoardStore.getState().setBoardId;
   const setBoard = useBoardStore.getState().setBoard;
+  const setErrorCode = useErrorStore.getState().setErrorCode;
   const dragAndDrop = useCardStore((state) => state.dragAndDrop);
   const { boardId } = useParams();
 
@@ -50,7 +51,12 @@ export default function Board() {
 
   useEffect(() => {
     const fetchBoard = async () => {
-      const { data } = await fetchSingleBoard(boardId);
+      const { data, error } = await fetchSingleBoard(boardId);
+      if (error) {
+        setErrorCode(error.code);
+        return;
+      }
+
       setBoard(data);
       setBoardId(boardId || "");
       setLists(data.lists);
