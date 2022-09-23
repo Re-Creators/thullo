@@ -24,6 +24,10 @@ export const fetchSingleBoard = async (boardId?: string) => {
         "*, lists(id, name, board_id), cards(*), labels(*), profiles(*), members(id, profile:profiles(id, username, avatar_url))"
       )
       .eq("id", boardId)
+      .order("created_at", {
+        foreignTable: "lists",
+        ascending: true,
+      })
       .single();
 
     if (error) {
