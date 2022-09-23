@@ -1,7 +1,11 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
 import ReactTextareaAutosize from "react-textarea-autosize";
-import { fetchComments, postComment } from "../../../api/services/comments";
+import {
+  deleteComment,
+  fetchComments,
+  postComment,
+} from "../../../api/services/comments";
 import useBoardStore from "../../../store/useBoardStore";
 import useCardStore from "../../../store/useCardStore";
 import useUserStore from "../../../store/useUserStore";
@@ -27,6 +31,13 @@ export default function Comment() {
       setComments(data);
       setText("");
     }
+  };
+
+  const deleteCommentHandler = async (id: string) => {
+    await deleteComment(id);
+    setComments((prev) => {
+      return prev.filter((comment) => comment.id !== id);
+    });
   };
 
   useEffect(() => {
@@ -87,7 +98,12 @@ export default function Comment() {
               {user?.id === comment.profile_id && (
                 <div className="flex text-gray-400 text-sm">
                   <button className="hover:text-gray-500">Edit</button>
-                  <button className="ml-3 hover:text-gray-500">Delete</button>
+                  <button
+                    className="ml-3 hover:text-gray-500"
+                    onClick={() => deleteCommentHandler(comment.id)}
+                  >
+                    Delete
+                  </button>
                 </div>
               )}
             </div>

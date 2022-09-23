@@ -40,3 +40,19 @@ export const postComment = async (comment: {
     return { data: null, error: err };
   }
 };
+
+export const deleteComment = async (id: string) => {
+  try {
+    const { data, error } = await supabase
+      .from("comments")
+      .delete()
+      .eq("id", id);
+    if (error) {
+      console.error(error);
+      return { data: null, error };
+    }
+    return { data, error: null };
+  } catch (err) {
+    return { data: null, error: err };
+  }
+};
