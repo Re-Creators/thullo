@@ -19,7 +19,6 @@ export default function BoardMenu({ isShowing, setIsShowing }: Props) {
     shallow
   );
 
-  console.log(board);
   return (
     <Transition.Root show={isShowing} as={Fragment}>
       <Dialog as={Fragment} onClose={() => {}}>

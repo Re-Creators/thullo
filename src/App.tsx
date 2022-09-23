@@ -5,8 +5,20 @@ import Board from "./pages/Board";
 import Layout from "./components/Layout";
 import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
+import { useEffect } from "react";
+import { supabase } from "./api/supabaseClient";
+import useUserStore from "./store/useUserStore";
 
 function App() {
+  const setUser = useUserStore.getState().setUser;
+
+  useEffect(() => {
+    supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setUser(session.user);
+      }
+    });
+  }, []);
   return (
     <div>
       <TopBar />

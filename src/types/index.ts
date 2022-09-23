@@ -53,6 +53,20 @@ export interface MemberData {
   };
 }
 
+export interface CommentData {
+  id: string;
+  board_id: string;
+  card_id: string;
+  created_at: string;
+  text: string;
+  profile_id: string;
+  profile: {
+    id: string;
+    username: string;
+    avatar_url: string;
+  };
+}
+
 export type CoverType = "Image" | "Color";
 
 export interface BoardData {
