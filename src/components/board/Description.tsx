@@ -1,5 +1,6 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MdModeEditOutline, MdOutlineDescription } from "react-icons/md";
+import ReactMarkdown from "react-markdown";
 import { useParams } from "react-router-dom";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import { updateDescription } from "../../api/services/boards";
@@ -18,10 +19,7 @@ export default function Description({ text, setBoard }: Props) {
   const ref = useRef<HTMLTextAreaElement>(null);
   const [editMode, setEditMode] = useState(false);
 
-  const editHandler = () => {
-    setEditMode(true);
-    ref.current?.focus();
-  };
+  const editHandler = () => setEditMode(true);
 
   const saveHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -33,6 +31,13 @@ export default function Description({ text, setBoard }: Props) {
       updateBoardDesc(ref.current.value);
     }
   };
+
+  useEffect(() => {
+    if (editMode && ref.current) {
+      ref.current.focus();
+      ref.current.select();
+    }
+  }, [editMode]);
 
   return (
     <div className="">
@@ -52,19 +57,28 @@ export default function Description({ text, setBoard }: Props) {
         )}
       </div>
       <div className="mt-1">
-        <ReactTextareaAutosize
-          className={`w-full ${
-            text.length === 0 && "bg-slate-100"
-          } p-3 resize-none h-fit-content min-h-[200px]  overflow-hidden focus:outline-blue-500 focus:placeholder:opacity-50 placeholder:text-gray-300`}
-          placeholder="Add more detailed description.."
-          spellCheck={false}
-          defaultValue={descriptionText}
-          onFocus={() => setEditMode(true)}
-          onBlur={() => {
-            setTimeout(() => setEditMode(false), 0);
-          }}
-          ref={ref}
-        />
+        <div className={`${editMode ? "block" : "hidden"}`}>
+          <ReactTextareaAutosize
+            className={`w-full ${
+              text.length === 0 && "bg-slate-100"
+            } p-3 resize-none h-fit-content min-h-[200px]  overflow-hidden focus:outline-blue-500 focus:placeholder:opacity-50 placeholder:text-gray-300`}
+            placeholder="Add more detailed description.."
+            spellCheck={false}
+            defaultValue={descriptionText}
+            onBlur={() => {
+              setTimeout(() => setEditMode(false), 0);
+            }}
+            ref={ref}
+          />
+        </div>
+        <div
+          className={`markdown prose cursor-pointer ${
+            editMode ? "hidden" : "block"
+          }`}
+          onClick={editHandler}
+        >
+          <ReactMarkdown>{text}</ReactMarkdown>
+        </div>
         {editMode && (
           <div className="flex items-center">
             <button className="btn-green px-3 py-1" onMouseDown={saveHandler}>
