@@ -18,12 +18,14 @@
     "react-beautiful-dnd": "^13.1.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
+    "react-markdown": "^8.0.3",
     "react-router-dom": "^6.3.0",
     "react-textarea-autosize": "^8.3.4",
     "zustand": "^4.0.0"
   },
   "devDependencies": {
     "@ebay/nice-modal-react": "^1.2.6",
+    "@tailwindcss/typography": "^0.5.7",
     "@types/lodash.debounce": "^4.0.7",
     "@types/react": "^18.0.15",
     "@types/react-beautiful-dnd": "^13.1.2",
