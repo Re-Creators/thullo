@@ -20,8 +20,10 @@ import BoardMenu from "../components/board/BoardMenu";
 import Members from "../components/board/Members";
 import WrapperPopover from "../components/popover/WrapperPopover";
 import useErrorStore from "../store/useErrorStore";
+import UploadAttachmentModal from "../components/modals/UploadAttachmentModal";
 
 NiceModal.register("card-information", CardInformationModal);
+NiceModal.register("upload-attachment", UploadAttachmentModal);
 
 export default function Board() {
   const [showMenu, setShowMenu] = useState(false);

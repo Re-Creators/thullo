@@ -1,19 +1,11 @@
 import { Dialog, Transition } from "@headlessui/react";
-import {
-  Fragment,
-  useCallback,
-  useEffect,
-  useId,
-  useRef,
-  useState,
-} from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { BsPlusLg } from "react-icons/bs";
 import { BiImageAlt, BiLockAlt } from "react-icons/bi";
 import BoardCoverModal from "./board-cover/BoardCoverModal";
 import { BoardData, CoverType } from "../../types";
 import { photos } from "../../utils/constants";
 import NiceModal, { useModal } from "@ebay/nice-modal-react";
-import { supabase } from "../../api/supabaseClient";
 
 interface Props {
   createNewBoard: (boards: BoardData) => void;

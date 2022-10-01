@@ -1,5 +1,5 @@
-import React from "react";
 import { MdAdd, MdAttachFile } from "react-icons/md";
+import NiceModal from "@ebay/nice-modal-react";
 
 function Attachment() {
   return (
@@ -9,7 +9,10 @@ function Attachment() {
           <MdAttachFile />
           <span className="ml-2">Attachment</span>
         </div>
-        <button className="flex items-center ml-5 py-1 px-3 text-sm rounded-lg border border-slate-500 hover:shadow-md">
+        <button
+          className="flex items-center ml-5 py-1 px-3 text-sm rounded-lg border border-slate-500 hover:shadow-md"
+          onClick={() => NiceModal.show("upload-attachment")}
+        >
           <MdAdd />
           <span className="ml-2">Add</span>
         </button>
