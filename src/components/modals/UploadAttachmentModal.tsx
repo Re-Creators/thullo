@@ -1,38 +1,65 @@
 import NiceModal, { useModal } from "@ebay/nice-modal-react";
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import { SupabaseClient } from "@supabase/supabase-js";
+import React, { FormEvent, Fragment, useEffect, useRef, useState } from "react";
 import { BsTrashFill } from "react-icons/bs";
 import { MdFileUpload } from "react-icons/md";
+import { supabase } from "../../api/supabaseClient";
+import { getFIleExtension } from "../../utils/helpers";
+
+type PreviewFile = {
+  name: string;
+  url: string;
+  type: string;
+  extension: string;
+};
 
 const UploadAttachmentModal = NiceModal.create(() => {
   const modal = useModal();
-  const [prevFile, setPrevFile] = useState<{
-    name: string;
-    url: string;
-    type: string;
-  } | null>(null);
+  const [prevFile, setPrevFile] = useState<PreviewFile | null>(null);
+  const [link, setLink] = useState("");
 
-  const fileRef = useRef<HTMLInputElement>(null);
+  const fileRef = useRef<File | null>(null);
 
   const handleRemoveFile = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setPrevFile(null);
   };
+
   const fileChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const currentFile = e.target.files;
     if (currentFile) {
       const file = currentFile[0];
       const fileType = file.type;
 
-      console.log(fileType);
+      fileRef.current = file;
+
+      let url = "";
 
       if (fileType.includes("image")) {
-        setPrevFile({
-          name: file.name,
-          url: URL.createObjectURL(file),
-          type: file.type,
-        });
+        url = URL.createObjectURL(file);
       }
+
+      setPrevFile({
+        name: file.name,
+        url: url,
+        type: file.type,
+        extension: getFIleExtension(file.name),
+      });
+
+      console.log(file);
+    }
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    console.log(fileRef.current);
+    if (fileRef.current) {
+      const file = fileRef.current;
+      const { data, error } = await supabase.storage
+        .from("attachments")
+        .upload(`public/${file.name}`, file);
+      console.log(data);
     }
   };
 
@@ -64,7 +91,7 @@ const UploadAttachmentModal = NiceModal.create(() => {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <form>
+                  <form onSubmit={handleSubmit}>
                     <div className="flex w-full flex-col md:flex-row border-2 rounded-lg border-dashed hover:bg-slate-200 ">
                       <div className="absolute top-3 right-3 z-5">
                         <button
@@ -77,11 +104,17 @@ const UploadAttachmentModal = NiceModal.create(() => {
                       <div className="group relative mx-auto mb-3 h-40 w-full cursor-pointer md:mb-0 md:h-52 md:w-1/2 md:border-0 flex items-center justify-center  ">
                         {prevFile ? (
                           <div className="flex flex-col items-center">
-                            <img
-                              src={prevFile.url}
-                              alt=""
-                              className="w-[100px] h-[100px] object-cover object-center rounded-lg"
-                            />
+                            {prevFile.type.includes("image") ? (
+                              <img
+                                src={prevFile.url}
+                                alt=""
+                                className="w-[100px] h-[100px] object-cover object-center rounded-lg"
+                              />
+                            ) : (
+                              <div className="w-[100px] h-[100px] bg-gray-300 rounded-lg  flex items-center justify-center">
+                                {prevFile.extension}
+                              </div>
+                            )}
                             <div className="mt-2 text-xs text-slate-500">
                               {prevFile.name}
                             </div>
@@ -99,7 +132,6 @@ const UploadAttachmentModal = NiceModal.create(() => {
                               type="file"
                               className="absolute h-0 opacity-0"
                               id="cover"
-                              ref={fileRef}
                               onChange={fileChangeHandler}
                             />
                           </div>
@@ -112,9 +144,15 @@ const UploadAttachmentModal = NiceModal.create(() => {
                       <input
                         type="text"
                         className="w-full outline-none border-2 py-1 px-3 text-sm focus:border-blue-500 rounded-lg"
+                        disabled={prevFile !== null}
+                        onChange={(e) => setLink(e.target.value)}
+                        value={link}
                       />
                     </div>
-                    <button className="mt-3 rounded-md bg-secondary px-5 py-2 btn-blue">
+                    <button
+                      className="mt-3 rounded-md bg-secondary px-5 py-2 btn-blue"
+                      disabled={link.trim() === "" && prevFile === null}
+                    >
                       Attach
                     </button>
                   </form>
