@@ -53,6 +53,17 @@ export interface MemberData {
   };
 }
 
+export interface AttachmentData {
+  id: string;
+  filename: string;
+  pathname: string;
+  url: string;
+  card_id: string;
+  created_at: string;
+  extension: string;
+  type: string;
+}
+
 export interface CommentData {
   id: string;
   board_id: string;

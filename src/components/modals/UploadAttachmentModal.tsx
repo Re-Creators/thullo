@@ -4,7 +4,10 @@ import { SupabaseClient } from "@supabase/supabase-js";
 import React, { FormEvent, Fragment, useEffect, useRef, useState } from "react";
 import { BsTrashFill } from "react-icons/bs";
 import { MdFileUpload } from "react-icons/md";
+import { postNewAttachment } from "../../api/services/attachments";
 import { supabase } from "../../api/supabaseClient";
+import useAttachmentStore from "../../store/useAttachmentStore";
+import useCardStore from "../../store/useCardStore";
 import { getFIleExtension } from "../../utils/helpers";
 
 type PreviewFile = {
@@ -17,6 +20,8 @@ type PreviewFile = {
 const UploadAttachmentModal = NiceModal.create(() => {
   const modal = useModal();
   const [prevFile, setPrevFile] = useState<PreviewFile | null>(null);
+  const selectedCard = useCardStore((state) => state.selectedCard);
+  const addNewAttachment = useAttachmentStore.getState().addNewAttachment;
   const [link, setLink] = useState("");
 
   const fileRef = useRef<File | null>(null);
@@ -53,13 +58,29 @@ const UploadAttachmentModal = NiceModal.create(() => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log(fileRef.current);
-    if (fileRef.current) {
-      const file = fileRef.current;
-      const { data, error } = await supabase.storage
-        .from("attachments")
-        .upload(`public/${file.name}`, file);
-      console.log(data);
+    try {
+      if (fileRef.current && selectedCard) {
+        const file = fileRef.current;
+        const filename = file.name.replace(" ", "_");
+        const { data: pathname, error } = await supabase.storage
+          .from("attachments")
+          .upload(`${selectedCard.id}/${filename}`, file);
+        const { publicURL } = supabase.storage
+          .from("attachments")
+          .getPublicUrl(`${selectedCard.id}/${filename}`);
+        const { data } = await postNewAttachment({
+          filename: file.name,
+          pathname: pathname?.Key || "",
+          url: publicURL,
+          type: file.type,
+          card_id: selectedCard.id,
+          extension: getFIleExtension(file.name),
+        });
+        addNewAttachment(data);
+        modal.hide();
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
