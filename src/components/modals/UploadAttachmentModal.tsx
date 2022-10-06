@@ -61,7 +61,7 @@ const UploadAttachmentModal = NiceModal.create(() => {
     try {
       if (fileRef.current && selectedCard) {
         const file = fileRef.current;
-        const filename = file.name.replace(" ", "_");
+        const filename = file.name.replaceAll(" ", "_");
         const { data: pathname, error } = await supabase.storage
           .from("attachments")
           .upload(`${selectedCard.id}/${filename}`, file);
