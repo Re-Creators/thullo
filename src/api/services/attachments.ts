@@ -41,3 +41,21 @@ export const fetchAttachments = async (cardId?: string) => {
     return { data: [], error };
   }
 };
+
+export const deleteAttachment = async (id: string, path: string) => {
+  try {
+    const { data, error } = await supabase
+      .from("attachments")
+      .delete()
+      .eq("id", id);
+    await supabase.storage.from("attachments").remove([path]);
+    if (error) {
+      console.error(error);
+      return { data: [], error };
+    }
+
+    return { data, error: null };
+  } catch (error) {
+    return { data: [], error };
+  }
+};

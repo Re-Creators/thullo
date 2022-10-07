@@ -3,7 +3,10 @@ import NiceModal from "@ebay/nice-modal-react";
 import useAttachmentStore from "../../../store/useAttachmentStore";
 import shallow from "zustand/shallow";
 import { useEffect } from "react";
-import { fetchAttachments } from "../../../api/services/attachments";
+import {
+  deleteAttachment,
+  fetchAttachments,
+} from "../../../api/services/attachments";
 import useCardStore from "../../../store/useCardStore";
 import moment from "moment";
 
@@ -12,8 +15,12 @@ function Attachment() {
     (state) => [state.attachments, state.setAttachments],
     shallow
   );
+  const removeAttachment = useAttachmentStore.getState().removeAttachment;
   const selectedCard = useCardStore((state) => state.selectedCard);
-
+  const handleDelete = async (id: string, path: string) => {
+    await deleteAttachment(id, path);
+    removeAttachment(id);
+  };
   useEffect(() => {
     const fetchData = async () => {
       const { data } = await fetchAttachments(selectedCard?.id);
@@ -63,7 +70,12 @@ function Attachment() {
                 <button className="w-24 py-2 rounded-lg border-2 text-sm hover:bg-gray-300">
                   Download
                 </button>
-                <button className="w-24 py-2 rounded-lg border-2 text-sm hover:bg-gray-300">
+                <button
+                  className="w-24 py-2 rounded-lg border-2 text-sm hover:bg-gray-300"
+                  onClick={() =>
+                    handleDelete(attachment.id, attachment.pathname)
+                  }
+                >
                   Delete
                 </button>
               </div>

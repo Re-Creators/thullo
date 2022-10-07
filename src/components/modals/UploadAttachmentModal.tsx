@@ -70,7 +70,7 @@ const UploadAttachmentModal = NiceModal.create(() => {
           .getPublicUrl(`${selectedCard.id}/${filename}`);
         const { data } = await postNewAttachment({
           filename: file.name,
-          pathname: pathname?.Key || "",
+          pathname: `${selectedCard.id}/${filename}`,
           url: publicURL,
           type: file.type,
           card_id: selectedCard.id,
