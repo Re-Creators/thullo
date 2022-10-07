@@ -87,7 +87,16 @@ const UploadAttachmentModal = NiceModal.create(() => {
   return (
     <>
       <Transition appear show={modal.visible}>
-        <Dialog as="div" className="relative z-20" onClose={() => modal.hide()}>
+        <Dialog
+          as="div"
+          className="relative z-20"
+          onClose={() => {
+            modal.hide();
+            setTimeout(() => {
+              modal.remove();
+            }, 1000);
+          }}
+        >
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
