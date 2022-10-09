@@ -29,6 +29,7 @@ export default function Comment() {
     if (card) {
       const { data } = await fetchComments(card.id);
       setComments(data);
+      console.log(data);
       setText("");
     }
   };

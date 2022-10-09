@@ -13,11 +13,18 @@ function App() {
   const setUser = useUserStore.getState().setUser;
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((_event, session) => {
-      if (session?.user) {
-        setUser(session.user);
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (event == "SIGNED_IN" && session?.user) {
+        if (session?.user) {
+          setUser(session.user);
+        }
       }
     });
+
+    const user = supabase.auth.user();
+    if (user) {
+      setUser(user);
+    }
   }, []);
   return (
     <div>
