@@ -72,12 +72,18 @@ export default function Description({ text, setBoard }: Props) {
           />
         </div>
         <div
-          className={`markdown prose cursor-pointer ${
+          className={`mt-5 markdown prose cursor-pointer ${
             editMode ? "hidden" : "block"
           }`}
           onClick={editHandler}
         >
-          <ReactMarkdown>{text}</ReactMarkdown>
+          {text === "" ? (
+            <p className="text-sm ml-3 text-gray-600">
+              Add more detailed description
+            </p>
+          ) : (
+            <ReactMarkdown>{text}</ReactMarkdown>
+          )}
         </div>
         {editMode && (
           <div className="flex items-center">
