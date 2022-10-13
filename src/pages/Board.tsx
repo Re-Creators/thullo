@@ -21,6 +21,8 @@ import Members from "../components/board/Members";
 import WrapperPopover from "../components/popover/WrapperPopover";
 import useErrorStore from "../store/useErrorStore";
 import UploadAttachmentModal from "../components/modals/UploadAttachmentModal";
+import { supabase } from "../api/supabaseClient";
+import { CardData } from "../types";
 
 NiceModal.register("card-information", CardInformationModal);
 NiceModal.register("upload-attachment", UploadAttachmentModal);
@@ -38,6 +40,7 @@ export default function Board() {
   const setLabels = useLabelStore.getState().setLabels;
   const setBoardId = useBoardStore.getState().setBoardId;
   const setBoard = useBoardStore.getState().setBoard;
+  const updateCards = useCardStore.getState().updateCards;
   const setErrorCode = useErrorStore.getState().setErrorCode;
   const dragAndDrop = useCardStore((state) => state.dragAndDrop);
   const { boardId } = useParams();
@@ -66,6 +69,20 @@ export default function Board() {
       setLabels(data.labels);
     };
     fetchBoard();
+  }, []);
+
+  useEffect(() => {
+    supabase
+      .channel("db-changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "cards" },
+        (payload) => {
+          console.log(payload);
+          updateCards(payload.new as CardData, payload.eventType);
+        }
+      )
+      .subscribe();
   }, []);
 
   return (
@@ -99,9 +116,6 @@ export default function Board() {
               key={list.id}
               cards={cards.filter((card) => card.list_id === list.id)}
               list={list}
-              createNewCard={(card) => {
-                setCards([...cards, card]);
-              }}
             />
           ))}
         </DragDropContext>

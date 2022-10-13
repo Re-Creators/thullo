@@ -27,6 +27,7 @@ export const updateList = async (listId: string, list: List) => {
       .from("lists")
       .update(list)
       .eq("id", listId)
+      .select()
       .single();
 
     if (error) {

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { BsPlusLg } from "react-icons/bs";
-import { FiMoreHorizontal } from "react-icons/fi";
 import { IoCloseSharp } from "react-icons/io5";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import { postNewCard } from "../../api/services/cards";
@@ -15,10 +14,9 @@ import CardItem from "./CardItem";
 interface Props {
   cards: CardData[];
   list: ListData;
-  createNewCard: (card: CardData) => void;
 }
 
-export default function List({ cards, list, createNewCard }: Props) {
+export default function List({ cards, list }: Props) {
   const [isCreateCard, setIsCreateCard] = useState(false);
   const ref = useClickOutside(() => {
     setIsCreateCard(false);
@@ -30,14 +28,12 @@ export default function List({ cards, list, createNewCard }: Props) {
     if (cards.length > 0) {
       pos = cards[cards.length - 1].pos + 65536;
     }
-    const { data } = await postNewCard({
+    await postNewCard({
       name: cardTitle,
       list_id: list.id,
       board_id: list.board_id,
       pos,
     });
-
-    createNewCard(data);
     setCardTitle("");
     setIsCreateCard(false);
   };

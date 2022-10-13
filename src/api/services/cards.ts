@@ -20,8 +20,7 @@ export const postNewCard = async (card: {
   pos: number;
 }) => {
   try {
-    const { data, error } = await supabase.from("cards").insert(card).single();
-
+    const { data, error } = await supabase.from("cards").insert(card);
     if (error) {
       console.error(error);
       return { data: null, error };

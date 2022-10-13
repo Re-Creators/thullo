@@ -13,6 +13,7 @@ interface CardState {
     dropCallback: (cardId: string, post: number, list_id?: string) => void
   ) => void;
   updateCardInformation: (card: CardData) => void;
+  updateCards: (card: CardData, eventType: string) => void;
 }
 
 const useCardStore = create<CardState>()(
@@ -64,12 +65,12 @@ const useCardStore = create<CardState>()(
           dropCallback(draggableId, sourceCard.pos);
 
           return {
-            cards: state.cards.map((card) => {
-              if (card.id === draggableId) {
-                return sourceCard;
-              }
-              return card;
-            }),
+            // cards: state.cards.map((card) => {
+            //   if (card.id === draggableId) {
+            //     return sourceCard;
+            //   }
+            //   return card;
+            // }),
           };
         }
 
@@ -92,15 +93,30 @@ const useCardStore = create<CardState>()(
 
         dropCallback(draggableId, sourceCard.pos, destination.droppableId);
         return {
-          cards: state.cards.map((card) => {
-            if (card.id === draggableId) {
-              sourceCard.list_id = destination.droppableId;
-              return sourceCard;
-            }
-            return card;
-          }),
+          // cards: state.cards.map((card) => {
+          //   if (card.id === draggableId) {
+          //     sourceCard.list_id = destination.droppableId;
+          //     return sourceCard;
+          //   }
+          //   return card;
+          // }),
         };
       }),
+    updateCards: (card, eventType) => {
+      const oldCards = get().cards;
+
+      if (eventType === "INSERT") {
+        set((state) => ({ cards: [...oldCards, card] }));
+      } else if (eventType === "UPDATE") {
+        set((state) => ({
+          cards: oldCards.map((oldCard) => {
+            if (oldCard.id === card.id) return card;
+            return oldCard;
+          }),
+        }));
+      } else if (eventType === "DELETE") {
+      }
+    },
   }))
 );
 
