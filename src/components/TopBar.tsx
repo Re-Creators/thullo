@@ -3,11 +3,11 @@ import Logo from "../assets/images/Logo.svg";
 import { AiOutlineCaretDown } from "react-icons/ai";
 import useBoardStore from "../store/useBoardStore";
 import { BsFillGrid3X3GapFill } from "react-icons/bs";
-import { supabase } from "../api/supabaseClient";
+import useUserStore from "../store/useUserStore";
 
 function TopBar() {
   const board = useBoardStore((state) => state.board);
-  const user = supabase.auth.user();
+  const user = useUserStore((state) => state.user);
   const { pathname } = useLocation();
 
   return (

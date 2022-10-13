@@ -9,7 +9,10 @@ export default function Signin() {
     e.preventDefault();
 
     try {
-      const { error } = await supabase.auth.signIn({ email, password });
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
       if (error) throw error;
       console.log("Berhasil Login");
     } catch (err) {

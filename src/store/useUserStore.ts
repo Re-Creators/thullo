@@ -7,7 +7,7 @@ export const user = "";
 
 interface UserState {
   user: User | null;
-  setUser: (user: User) => void;
+  setUser: (user: User | null) => void;
 }
 const useUserStore = create<UserState>()(
   devtools((set) => ({

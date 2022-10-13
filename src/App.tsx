@@ -10,9 +10,21 @@ import { supabase } from "./api/supabaseClient";
 import useUserStore from "./store/useUserStore";
 
 function App() {
+  const user = useUserStore((state) => state.user);
   const setUser = useUserStore.getState().setUser;
 
   useEffect(() => {
+    const fetchData = async () => {
+      const { data, error } = await supabase.auth.getSession();
+
+      if (data?.session) {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser(data.session.access_token);
+        setUser(user);
+      }
+    };
+
     supabase.auth.onAuthStateChange((event, session) => {
       if (event == "SIGNED_IN" && session?.user) {
         if (session?.user) {
@@ -21,9 +33,8 @@ function App() {
       }
     });
 
-    const user = supabase.auth.user();
-    if (user) {
-      setUser(user);
+    if (!user) {
+      fetchData();
     }
   }, []);
   return (
