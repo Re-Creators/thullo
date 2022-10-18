@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { BsPlusLg } from "react-icons/bs";
 import { IoCloseSharp } from "react-icons/io5";
@@ -21,8 +21,10 @@ export default function List({ cards, list }: Props) {
   const ref = useClickOutside(() => {
     setIsCreateCard(false);
   });
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const [cardTitle, setCardTitle] = useState("");
-  const updateListInfo = useListStore.getState().updateListInfo;
+  const [editMode, setEditMode] = useState(false);
+
   const handleCreateCard = async () => {
     let pos = 65535;
     if (cards.length > 0) {
@@ -41,25 +43,43 @@ export default function List({ cards, list }: Props) {
   const nameChangeHandler = async (
     e: React.FocusEvent<HTMLTextAreaElement>
   ) => {
-    const { data, error } = await updateList(list.id, {
+    let value = e.currentTarget.value;
+
+    setEditMode(false);
+    if (value === list.name) return;
+    await updateList(list.id, {
       name: e.currentTarget.value,
     });
-
-    if (!error) {
-      updateListInfo(data);
-    }
   };
 
+  useEffect(() => {
+    if (editMode && inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.select();
+    }
+  }, [editMode]);
   return (
     <div className="w-[343px] flex-shrink-0 px-3">
-      <div className="flex justify-between items-center">
-        <ReactTextareaAutosize
-          className="w-full bg-transparent focus:bg-white p-2 mr-2 outline-blue-500 resize-none h-[40px] overflow-hidden"
-          maxLength={512}
-          spellCheck={false}
-          onBlur={nameChangeHandler}
-          defaultValue={list.name}
-        />
+      <div className="flex justify-between items-center relative">
+        {editMode ? (
+          <ReactTextareaAutosize
+            ref={inputRef}
+            className="w-full bg-transparent focus:bg-white p-2 mr-2 outline-blue-500 resize-none h-[40px] overflow-hidden"
+            maxLength={512}
+            spellCheck={false}
+            onBlur={nameChangeHandler}
+            defaultValue={list.name}
+          />
+        ) : (
+          <>
+            <div
+              className="absolute inset-0 cursor-pointer"
+              onClick={() => setEditMode(true)}
+            ></div>
+            <h2 className="w-full">{list.name}</h2>
+          </>
+        )}
+
         <ListOptionPopover listId={list.id} />
       </div>
       <Droppable droppableId={list.id}>

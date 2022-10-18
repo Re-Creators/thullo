@@ -7,7 +7,7 @@ interface CardState {
   cards: CardData[];
   selectedCard: CardData | null;
   setCards: (newCards: CardData[]) => void;
-  selectCard: (card: CardData) => void;
+  selectCard: (card: CardData | null) => void;
   dragAndDrop: (
     result: DropResult,
     dropCallback: (cardId: string, post: number, list_id?: string) => void
@@ -20,7 +20,7 @@ const useCardStore = create<CardState>()(
   devtools((set, get) => ({
     cards: [],
     selectedCard: null,
-    selectCard: (card: CardData) => set((state) => ({ selectedCard: card })),
+    selectCard: (card) => set((state) => ({ selectedCard: card })),
     setCards: (newCards) => set((state) => ({ cards: newCards })),
     updateCardInformation: (card) => {
       const newCards = get().cards.map((c) => {

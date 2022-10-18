@@ -2,10 +2,11 @@ import { BsFillFileEarmarkTextFill } from "react-icons/bs";
 import { deleteMember, fetchMember } from "../../api/services/members";
 import { supabase } from "../../api/supabaseClient";
 import useBoardStore from "../../store/useBoardStore";
+import useUserStore from "../../store/useUserStore";
 
 export default function Team() {
   const board = useBoardStore((state) => state.board);
-  const user = supabase.auth.user();
+  const user = useUserStore((state) => state.user);
 
   const updateBoardMember = useBoardStore.getState().updateBoardMember;
 

@@ -22,7 +22,7 @@ import WrapperPopover from "../components/popover/WrapperPopover";
 import useErrorStore from "../store/useErrorStore";
 import UploadAttachmentModal from "../components/modals/UploadAttachmentModal";
 import { supabase } from "../api/supabaseClient";
-import { CardData } from "../types";
+import { CardData, ListData } from "../types";
 
 NiceModal.register("card-information", CardInformationModal);
 NiceModal.register("upload-attachment", UploadAttachmentModal);
@@ -41,6 +41,7 @@ export default function Board() {
   const setBoardId = useBoardStore.getState().setBoardId;
   const setBoard = useBoardStore.getState().setBoard;
   const updateCards = useCardStore.getState().updateCards;
+  const updateListInfo = useListStore.getState().updateListInfo;
   const setErrorCode = useErrorStore.getState().setErrorCode;
   const dragAndDrop = useCardStore((state) => state.dragAndDrop);
   const { boardId } = useParams();
@@ -78,8 +79,18 @@ export default function Board() {
         "postgres_changes",
         { event: "*", schema: "public", table: "cards" },
         (payload) => {
-          console.log(payload);
           updateCards(payload.new as CardData, payload.eventType);
+        }
+      )
+      .subscribe();
+    supabase
+      .channel("db-changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "lists" },
+        (payload) => {
+          console.log(payload);
+          updateListInfo(payload.new as ListData);
         }
       )
       .subscribe();

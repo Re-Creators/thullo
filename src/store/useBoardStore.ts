@@ -8,7 +8,7 @@ interface BoardState {
   setBoard: (newBoard: BoardData) => void;
   setBoardId: (boardId: string) => void;
   updateBoardDesc: (desc: string) => void;
-  updateBoardMember: (newMember: MemberData[]) => void;
+  updateBoardMember: (newMember: any[]) => void;
 }
 
 const useBoardStore = create<BoardState>()(
