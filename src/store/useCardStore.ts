@@ -64,14 +64,7 @@ const useCardStore = create<CardState>()(
 
           dropCallback(draggableId, sourceCard.pos);
 
-          return {
-            // cards: state.cards.map((card) => {
-            //   if (card.id === draggableId) {
-            //     return sourceCard;
-            //   }
-            //   return card;
-            // }),
-          };
+          return {};
         }
 
         const destinationList = state.cards
@@ -93,13 +86,13 @@ const useCardStore = create<CardState>()(
 
         dropCallback(draggableId, sourceCard.pos, destination.droppableId);
         return {
-          // cards: state.cards.map((card) => {
-          //   if (card.id === draggableId) {
-          //     sourceCard.list_id = destination.droppableId;
-          //     return sourceCard;
-          //   }
-          //   return card;
-          // }),
+          cards: state.cards.map((card) => {
+            if (card.id === draggableId) {
+              sourceCard.list_id = destination.droppableId;
+              return sourceCard;
+            }
+            return card;
+          }),
         };
       }),
     updateCards: (card, eventType) => {

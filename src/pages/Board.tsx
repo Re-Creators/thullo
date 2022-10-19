@@ -74,7 +74,18 @@ export default function Board() {
 
   useEffect(() => {
     supabase
-      .channel("db-changes")
+      .channel("lists-changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "lists" },
+        (payload) => {
+          updateListInfo(payload.new as ListData);
+        }
+      )
+      .subscribe();
+
+    supabase
+      .channel("cards-changes")
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "cards" },
@@ -83,18 +94,9 @@ export default function Board() {
         }
       )
       .subscribe();
-    supabase
-      .channel("db-changes")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "lists" },
-        (payload) => {
-          console.log(payload);
-          updateListInfo(payload.new as ListData);
-        }
-      )
-      .subscribe();
   }, []);
+
+  console.log("Rerender");
 
   return (
     <div className="bg-white min-h-screen px-8 py-8 relative">
