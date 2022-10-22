@@ -79,6 +79,7 @@ export default function Board() {
         "postgres_changes",
         { event: "*", schema: "public", table: "lists" },
         (payload) => {
+          console.log("list", payload);
           updateListInfo(payload.new as ListData);
         }
       )
@@ -90,6 +91,8 @@ export default function Board() {
         "postgres_changes",
         { event: "*", schema: "public", table: "cards" },
         (payload) => {
+          console.log("card", payload);
+
           updateCards(payload.new as CardData, payload.eventType);
         }
       )

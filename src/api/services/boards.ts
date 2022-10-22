@@ -46,6 +46,7 @@ export const postBoard = async (board: BoardData) => {
     const { data, error } = await supabase
       .from("boards")
       .insert(board)
+      .select()
       .single();
 
     if (error) {
