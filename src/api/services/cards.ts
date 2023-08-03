@@ -31,19 +31,21 @@ export const postNewCard = async (card: {
   }
 };
 
-export const updateCard = async (cardId: string, card: Card) => {
+export const updateCard = async (cardId: string, card: Card) : Promise<{ data: CardData | null; error: any }> => {
   try {
-    const { data, error } = await supabase
+    const { data , error } = await supabase
       .from("cards")
       .update(card)
       .eq("id", cardId)
-      .single();
+      .select();
 
     if (error) {
       console.error(error);
       return { data: null, error };
     }
-    return { data, error: null };
+
+    const typedData = data as CardData[];
+    return { data : typedData[0], error: null };
   } catch (err) {
     return { data: null, error: err };
   }

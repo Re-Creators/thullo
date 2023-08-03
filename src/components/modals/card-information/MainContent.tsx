@@ -23,7 +23,10 @@ export default function MainContent({ listName, card }: Props) {
       const { data } = await updateCard(card.id, {
         name,
       });
-      updateCardInformation(data);
+      
+      if (data) {
+        updateCardInformation(data);
+      }
     }
   };
   return (

@@ -91,15 +91,11 @@ export default function Board() {
         "postgres_changes",
         { event: "*", schema: "public", table: "cards" },
         (payload) => {
-          console.log("card", payload);
-
           updateCards(payload.new as CardData, payload.eventType);
         }
       )
       .subscribe();
   }, []);
-
-  console.log("Rerender");
 
   return (
     <div className="bg-white min-h-screen px-8 py-8 relative">
