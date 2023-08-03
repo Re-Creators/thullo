@@ -30,7 +30,7 @@ const BoardCoverModal = NiceModal.create(({ chooseCover, selected }: Props) => {
       <div className="fixed inset-0 flex items-center justify-center p-4">
         <Dialog.Panel>
           <div
-            className="bg-white border shadow-md absolute w-96 p-5 rounded-lg"
+            className="bg-white border shadow-md absolute top-1/2 left-1/2 -translate-x-1/2 md:top-auto md:left-auto md:translate-x-0 w-96 p-5 rounded-lg"
             ref={coverOptionRef}
           >
             <Dialog.Title>
