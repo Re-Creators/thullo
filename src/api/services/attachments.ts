@@ -12,13 +12,13 @@ export const postNewAttachment = async (attachment: {
     const { data, error } = await supabase
       .from("attachments")
       .insert(attachment)
-      .single();
+      .select();
 
     if (error) {
       console.error(error);
       return { data: null, error };
     }
-    return { data, error: null };
+    return { data : data[0], error: null };
   } catch (err) {
     return { data: null, error: err };
   }
@@ -59,3 +59,20 @@ export const deleteAttachment = async (id: string, path: string) => {
     return { data: [], error };
   }
 };
+
+export const downloadAttachment = async (path: string) => {
+  try {
+    const { data, error } = await supabase.storage
+      .from("attachments")
+      .download(path);
+
+    if (error) {
+      console.error(error);
+      return { data: null, error };
+    }
+
+    return { data, error: null };
+  } catch (error) {
+    return { data: null, error };
+  }
+}

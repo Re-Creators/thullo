@@ -7,6 +7,7 @@ interface AttachmentState {
   setAttachments: (attachment: AttachmentData[]) => void;
   addNewAttachment: (attachment: AttachmentData) => void;
   removeAttachment: (attchmentId: string) => void;
+  updateAttachment: (attachment: AttachmentData) => void;
 }
 
 const useAttachmentStore = create<AttachmentState>()((set) => ({
@@ -18,6 +19,12 @@ const useAttachmentStore = create<AttachmentState>()((set) => ({
     set((state) => ({
       attachments: state.attachments.filter(
         (attachment) => attachment.id !== attachmentId
+      ),
+    })),
+    updateAttachment: (attachment) =>
+    set((state) => ({
+      attachments: state.attachments.map((att) =>
+        att.id === attachment.id ? attachment : att
       ),
     })),
 }));

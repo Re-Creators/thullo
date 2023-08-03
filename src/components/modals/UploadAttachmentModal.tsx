@@ -52,7 +52,6 @@ const UploadAttachmentModal = NiceModal.create(() => {
         extension: getFIleExtension(file.name),
       });
 
-      console.log(file);
     }
   };
 
@@ -62,21 +61,25 @@ const UploadAttachmentModal = NiceModal.create(() => {
       if (fileRef.current && selectedCard) {
         const file = fileRef.current;
         const filename = file.name.replaceAll(" ", "_");
-        const { data: pathname, error } = await supabase.storage
+        await supabase.storage
           .from("attachments")
           .upload(`${selectedCard.id}/${filename}`, file);
-        const { publicURL } = supabase.storage
+        const { data } = supabase.storage
           .from("attachments")
           .getPublicUrl(`${selectedCard.id}/${filename}`);
-        const { data } = await postNewAttachment({
+        const { data : attachment } = await postNewAttachment({
           filename: file.name,
           pathname: `${selectedCard.id}/${filename}`,
-          url: publicURL,
+          url: data.publicUrl,
           type: file.type,
           card_id: selectedCard.id,
           extension: getFIleExtension(file.name),
         });
-        addNewAttachment(data);
+
+        if(attachment) {
+          addNewAttachment(attachment);
+        }
+        
         modal.hide();
       }
     } catch (err) {

@@ -5,6 +5,7 @@ import shallow from "zustand/shallow";
 import { useEffect } from "react";
 import {
   deleteAttachment,
+  downloadAttachment,
   fetchAttachments,
 } from "../../../api/services/attachments";
 import useCardStore from "../../../store/useCardStore";
@@ -67,9 +68,9 @@ function Attachment() {
                 <h2 className="font-semibold">{attachment.filename}</h2>
               </div>
               <div className="flex space-x-3">
-                <button className="w-24 py-2 rounded-lg border-2 text-sm hover:bg-gray-300">
+                <a href={attachment.url} className="w-24 py-2 text-center rounded-lg border-2 text-sm hover:bg-gray-300" download={true}>
                   Download
-                </button>
+                </a>
                 <button
                   className="w-24 py-2 rounded-lg border-2 text-sm hover:bg-gray-300"
                   onClick={() =>
