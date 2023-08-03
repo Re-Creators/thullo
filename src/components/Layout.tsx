@@ -1,4 +1,3 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
 import useErrorStore, { ERROR_CODES } from "../store/useErrorStore";
 
@@ -10,5 +9,5 @@ const renderChildren = (errorCode: string | null) => {
 export default function Layout() {
   const errorCode = useErrorStore((state) => state.errorCode);
 
-  return <div className="mt-[70px] py-1">{renderChildren(errorCode)}</div>;
+  return <div className="mt-1 grow">{renderChildren(errorCode)}</div>;
 }

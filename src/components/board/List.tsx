@@ -59,7 +59,7 @@ export default function List({ cards, list }: Props) {
     }
   }, [editMode]);
   return (
-    <div className="w-[343px] flex-shrink-0 px-3">
+    <div className="w-[343px] flex-shrink-0 px-3 overflow-y-auto overflow-x-hidden">
       <div className="flex justify-between items-center relative">
         {editMode ? (
           <ReactTextareaAutosize

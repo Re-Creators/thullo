@@ -96,11 +96,10 @@ export default function Board() {
         }
       )
       .subscribe();
-
   }, []);
 
   return (
-    <div className="bg-white min-h-screen px-8 py-8 relative">
+    <div className="h-full bg-white px-8 pt-8 flex flex-col relative">
       <BoardMenu isShowing={showMenu} setIsShowing={setShowMenu} />
       <div className="flex justify-between h-10">
         <div className="flex">
@@ -123,18 +122,21 @@ export default function Board() {
           <span className="text-sm ml-3">Show Menu</span>
         </button>
       </div>
-      <div className="bg-[#F8F9FD] flex space-x-8  p-5 rounded-lg max-w-full overflow-x-auto mt-10">
-        <DragDropContext onDragEnd={onDragEnd}>
-          {lists.map((list) => (
-            <List
-              key={list.id}
-              cards={cards.filter((card) => card.list_id === list.id)}
-              list={list}
-            />
-          ))}
-        </DragDropContext>
-        <CreateList createNewList={() => {}} />
+      <div className="bg-[#F8F9FD] grow rounded-lg mt-10 relative">
+        <div className="absolute inset-0 flex space-x-8 p-5 overflow-x-auto overflow-y-hidden">
+          <DragDropContext onDragEnd={onDragEnd}>
+            {lists.map((list) => (
+              <List
+                key={list.id}
+                cards={cards.filter((card) => card.list_id === list.id)}
+                list={list}
+              />
+            ))}
+          </DragDropContext>
+          <CreateList createNewList={() => {}} />
+        </div>
       </div>
+      <div id="popover-parent"></div>
     </div>
   );
 }

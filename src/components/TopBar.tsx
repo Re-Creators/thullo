@@ -11,7 +11,7 @@ function TopBar() {
   const { pathname } = useLocation();
 
   return (
-    <nav className="fixed top-0 inset-x-0 px-5 bg-white shadow-md flex justify-between items-center z-[1] h-[70px] ">
+    <nav className="p-8 bg-white shadow-md flex justify-between items-center min-h-[70px] ">
       <div className="flex items-center">
         <Link to="/">
           <img src={Logo} alt="Logo" />

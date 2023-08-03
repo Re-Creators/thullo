@@ -38,7 +38,7 @@ function App() {
     }
   }, []);
   return (
-    <div>
+    <div className="flex flex-col h-screen overflow-hidden">
       <TopBar />
       <Routes>
         <Route path="/" element={<Layout />}>
