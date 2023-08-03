@@ -35,7 +35,10 @@ export default function LabelPopover() {
       color: labelSelected?.color || "",
       board_id: boardId || "",
     });
-    addLabel(data);
+
+    if(data) {
+      addLabel(data);
+    }
     setLabelName("");
     setLabelSelected(null);
   };
@@ -53,7 +56,9 @@ export default function LabelPopover() {
     const { data } = await updateCard(card.id, {
       labels: cardLabels,
     });
-    updateCardInformation(data);
+    if(data) {
+      updateCardInformation(data);
+    }
   };
 
   useEffect(() => {
