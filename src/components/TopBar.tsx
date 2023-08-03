@@ -33,7 +33,7 @@ function TopBar() {
         <div className="flex items-center space-x-3">
           <div className="w-12 h-12 rounded-full overflow-hidden">
             <img
-              src="https://lastfm.freetls.fastly.net/i/u/770x0/d94e7f5b6162e826bf8f451b383a78f1.jpg"
+              src={user?.user_metadata.avatar_url}
               alt="Profile"
               className="w-full h-full object-cover object-center"
             />

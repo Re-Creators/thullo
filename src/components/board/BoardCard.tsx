@@ -25,14 +25,17 @@ function BoardCard({ board }: Props) {
         <h2 className="mt-3 font-semibold">{board.name}</h2>
       </div>
       <div className="flex space-x-3 mt-8 items-center">
-        <div className="img-container w-10 h-10 cursor-pointer">
+        {board.members.slice(0, 3).map((member) => (
           <img
-            src="https://lastfm.freetls.fastly.net/i/u/770x0/d94e7f5b6162e826bf8f451b383a78f1.jpg"
+            key={member.id}
+            src={member.profile.avatar_url}
             alt=""
-            className="img-full"
+            className="w-10 h-10 rounded-full border-2 border-white object-cover object-center"
           />
-        </div>
-        <div className="text-gray-400">5+ Others</div>
+        ))}
+        <span className="text-gray-500">
+          {board.members.length > 3 && `+${board.members.length - 3} more`}
+        </span>
       </div>
     </Link>
   );

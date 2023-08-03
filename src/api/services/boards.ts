@@ -3,7 +3,7 @@ import { supabase } from "../supabaseClient";
 
 export const fetchAllBoards = async () => {
   try {
-    const { data, error } = await supabase.from("boards").select("*");
+    const { data, error } = await supabase.from("boards").select("*, members(id, profile:profiles(id, username, avatar_url))");
 
     if (error) {
       console.error(error);
