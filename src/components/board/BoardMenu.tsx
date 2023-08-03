@@ -23,7 +23,7 @@ export default function BoardMenu({ isShowing, setIsShowing }: Props) {
     <Transition.Root show={isShowing} as={Fragment}>
       <Dialog as={Fragment} onClose={() => {}}>
         <div className="fixed z-10 inset-y-0 overflow-hidden">
-          <div className="pointer-events-none fixed bottom-0 top-[70px] right-0 flex max-w-full pl-10">
+          <div className="pointer-events-none fixed bottom-0 top-[89px] md:top-[113px] xl:top-[70px] right-0 flex max-w-full pl-10">
             <Transition.Child
               as={Fragment}
               enter="transform transition ease-in-out duration-300 sm:duration-500"

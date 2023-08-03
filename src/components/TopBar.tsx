@@ -11,13 +11,13 @@ function TopBar() {
   const { pathname } = useLocation();
 
   return (
-    <nav className="p-8 bg-white shadow-md flex justify-between items-center min-h-[70px] ">
+    <nav className="p-5 bg-white shadow-md flex justify-between items-center md:min-h-[70px] ">
       <div className="flex items-center">
         <Link to="/">
-          <img src={Logo} alt="Logo" />
+          <img src={Logo} alt="Logo" className="min-w-[80px]" />
         </Link>
         {pathname !== "/" && (
-          <div className="flex items-center ml-24 ">
+          <div className="hidden md:flex items-center ml-24 ">
             <h1 className="border-r pr-5">{board?.name}</h1>
             <Link
               to="/"
@@ -30,16 +30,6 @@ function TopBar() {
         )}
       </div>
       <div className="flex space-x-16">
-        <div className="w-96 shadow-md relative rounded-lg">
-          <input
-            type="text"
-            className="outline-none border-none px-4 py-2 pr-28 text-xs w-full h-full"
-            placeholder="Keyword..."
-          />
-          <button className="text-sm absolute right-2 top-2 bottom-2 bg-blue-600 w-20 text-white rounded-lg ">
-            Search
-          </button>
-        </div>
         <div className="flex items-center space-x-3">
           <div className="w-12 h-12 rounded-full overflow-hidden">
             <img
@@ -48,8 +38,8 @@ function TopBar() {
               className="w-full h-full object-cover object-center"
             />
           </div>
-          <div>{user?.user_metadata.username}</div>
-          <button>
+          <div className="hidden lg:block">{user?.user_metadata.username}</div>
+          <button className="hidden lg:block">
             <AiOutlineCaretDown />
           </button>
         </div>

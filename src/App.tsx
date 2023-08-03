@@ -48,6 +48,7 @@ function App() {
           <Route path="/board/:boardId" element={<Board />} />
         </Route>
       </Routes>
+      <div id="popover-parent"></div>
     </div>
   );
 }

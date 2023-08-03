@@ -1,4 +1,3 @@
-import { BsPlusLg } from "react-icons/bs";
 import { MdOutlineMoreHoriz } from "react-icons/md";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import CardInformationModal from "../components/modals/card-information/CardInformationModal";
@@ -24,6 +23,7 @@ import UploadAttachmentModal from "../components/modals/UploadAttachmentModal";
 import { supabase } from "../api/supabaseClient";
 import { AttachmentData, CardData, ListData, ListPayload } from "../types";
 import useAttachmentStore from "../store/useAttachmentStore";
+import SideMenu from "../components/board/SideMenu";
 
 NiceModal.register("card-information", CardInformationModal);
 NiceModal.register("upload-attachment", UploadAttachmentModal);
@@ -101,10 +101,11 @@ export default function Board() {
   return (
     <div className="h-full bg-white px-8 pt-8 flex flex-col relative">
       <BoardMenu isShowing={showMenu} setIsShowing={setShowMenu} />
+      <SideMenu />
       <div className="flex justify-between h-10">
         <div className="flex">
           <VisibilityPopover />
-          <div className="ml-5 flex space-x-3">
+          <div className="md:ml-5 flex space-x-3">
             <Members />
             <WrapperPopover>
               <InviteMemberPopover
@@ -115,15 +116,15 @@ export default function Board() {
           </div>
         </div>
         <button
-          className="btn-gray justify-center px-8 py-3 "
+          className="btn-gray justify-center px-2 md:px-8 py-3 "
           onClick={() => setShowMenu(!showMenu)}
         >
           <MdOutlineMoreHoriz fontSize={24} />
-          <span className="text-sm ml-3">Show Menu</span>
+          <span className="hidden md:block text-sm ml-3">Show Menu</span>
         </button>
       </div>
       <div className="bg-[#F8F9FD] grow rounded-lg mt-10 relative">
-        <div className="absolute inset-0 flex space-x-8 p-5 overflow-x-auto overflow-y-hidden">
+        <div className="absolute inset-0 flex space-x-8 p-3 md:p-5 overflow-x-auto overflow-y-hidden">
           <DragDropContext onDragEnd={onDragEnd}>
             {lists.map((list) => (
               <List
@@ -136,7 +137,6 @@ export default function Board() {
           <CreateList />
         </div>
       </div>
-      <div id="popover-parent"></div>
     </div>
   );
 }

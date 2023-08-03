@@ -5,7 +5,7 @@ import { MdOutlinePublic } from "react-icons/md";
 
 export default function VisibilityPopover() {
   return (
-    <Popover className="relative">
+    <Popover className="relative hidden md:block">
       {() => (
         <>
           <Popover.Button className="btn-gray justify-center px-8 py-3 outline-none">
