@@ -1,3 +1,4 @@
+import { ListData } from "../../types";
 import { supabase } from "../supabaseClient";
 
 interface List {
@@ -7,15 +8,17 @@ interface List {
 export const postNewList = async (list: {
   name: string;
   board_id?: string;
-}) => {
+}) :Promise<{ data: ListData | null; error: any }>  => {
   try {
-    const { data, error } = await supabase.from("lists").insert(list).single();
+    const { data, error } = await supabase.from("lists").insert(list).select();
 
     if (error) {
       console.error(error);
       return { data: null, error };
     }
-    return { data, error: null };
+
+    const typedData = data as ListData[];
+    return { data : typedData[0], error: null };
   } catch (err) {
     return { data: null, error: err };
   }

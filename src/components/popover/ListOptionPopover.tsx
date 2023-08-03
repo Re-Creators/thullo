@@ -15,7 +15,7 @@ export default function ListOptionPopover({ listId }: Props) {
 
   const deleteHandler = async () => {
     await deleteSingleList(listId);
-    deleteList(listId);
+    // deleteList(listId);
   };
 
   let [referenceElement, setReferenceElement] =

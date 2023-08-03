@@ -1,12 +1,12 @@
 import create from "zustand";
-import { ListData } from "../types";
+import { ListData, ListPayload } from "../types";
 import { devtools } from "zustand/middleware";
 
 interface ListState {
   lists: ListData[];
   setLists: (newList: ListData[]) => void;
   addList: (list: ListData) => void;
-  updateListInfo: (list: ListData) => void;
+  updateListInfo: (payload : ListPayload) => void;
   deleteList: (listId: string) => void;
 }
 
@@ -19,15 +19,29 @@ const useListStore = create<ListState>()(
       set((state) => ({
         lists: state.lists.filter((list) => list.id !== listId),
       })),
-    updateListInfo: (list) =>
-      set((state) => ({
-        lists: state.lists.map((c) => {
-          if (c.id === list.id) {
-            return list;
-          }
-          return c;
-        }),
-      })),
+    updateListInfo: (payload) => {
+      const list = payload.new;
+      const oldList = payload.old;
+
+      if (payload.eventType.toLowerCase() === "update") {
+        set((state) => ({
+          lists: state.lists.map((l) => {
+            if (l.id === list.id) {
+              return list;
+            }
+            return l;
+          }),
+        }));
+      } else if (payload.eventType.toLowerCase() === "delete") {
+        set((state) => ({
+          lists: state.lists.filter((l) => l.id !== oldList.id),
+        }));
+      } else {
+        set((state) => ({
+          lists: [...state.lists, list],
+        }));
+      }
+    },
   }))
 );
 

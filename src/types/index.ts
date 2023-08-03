@@ -98,3 +98,9 @@ export interface BoardData {
 export interface DragAndDrop {
   columnOrder: string[];
 }
+
+export interface ListPayload {
+  new : ListData;
+  eventType: string;
+  old: ListData;
+}

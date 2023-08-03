@@ -6,11 +6,7 @@ import { postNewList } from "../../api/services/lists";
 import useClickOutside from "../../hooks/useClickOutside";
 import useListStore from "../../store/useListStore";
 
-interface Props {
-  createNewList: (title: string) => void;
-}
-
-export default function CreateList({ createNewList }: Props) {
+export default function CreateList() {
   const { boardId } = useParams();
   const addList = useListStore((state) => state.addList);
   const containerRef = useClickOutside(() => {
@@ -21,12 +17,10 @@ export default function CreateList({ createNewList }: Props) {
   const [title, setTitle] = useState("");
 
   const createNewListHandler = async () => {
-    const { data } = await postNewList({
+    postNewList({
       name: title,
       board_id: boardId,
     });
-    addList(data);
-    createNewList(title);
 
     setTitle("");
     setIsShow(false);

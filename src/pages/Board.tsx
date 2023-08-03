@@ -22,7 +22,7 @@ import WrapperPopover from "../components/popover/WrapperPopover";
 import useErrorStore from "../store/useErrorStore";
 import UploadAttachmentModal from "../components/modals/UploadAttachmentModal";
 import { supabase } from "../api/supabaseClient";
-import { AttachmentData, CardData, ListData } from "../types";
+import { AttachmentData, CardData, ListData, ListPayload } from "../types";
 import useAttachmentStore from "../store/useAttachmentStore";
 
 NiceModal.register("card-information", CardInformationModal);
@@ -81,7 +81,7 @@ export default function Board() {
         "postgres_changes",
         { event: "*", schema: "public", table: "lists" },
         (payload) => {
-          updateListInfo(payload.new as ListData);
+          updateListInfo(payload as unknown as ListPayload);
         }
       )
       .subscribe();
@@ -133,7 +133,7 @@ export default function Board() {
               />
             ))}
           </DragDropContext>
-          <CreateList createNewList={() => {}} />
+          <CreateList />
         </div>
       </div>
       <div id="popover-parent"></div>
