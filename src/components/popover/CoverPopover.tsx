@@ -20,7 +20,10 @@ export default function CoverPopover() {
           source,
         },
       });
-      updateCardInformation(data);
+
+      if (data) {
+        updateCardInformation(data);
+      }
     }
   };
   return (
