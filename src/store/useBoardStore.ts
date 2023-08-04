@@ -1,6 +1,6 @@
 import create from "zustand";
 import { devtools } from "zustand/middleware";
-import { BoardData, MemberData } from "../types";
+import { BoardData } from "../types";
 
 interface BoardState {
   boardId: string;

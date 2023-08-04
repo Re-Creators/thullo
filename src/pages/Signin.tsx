@@ -1,4 +1,4 @@
-import React, { FormEvent, FormEventHandler, useState } from "react";
+import { FormEvent, useState } from "react";
 import { supabase } from "../api/supabaseClient";
 import useUserStore from "../store/useUserStore";
 import { Link, Navigate } from "react-router-dom";

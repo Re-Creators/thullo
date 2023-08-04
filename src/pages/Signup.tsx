@@ -1,14 +1,11 @@
-import React, { FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import { supabase } from "../api/supabaseClient";
 import { MdLock, MdMail } from "react-icons/md";
 import logo from "../assets/images/Logo.svg";
 import { BiUser } from "react-icons/bi";
 import useUserStore from "../store/useUserStore";
 import { Navigate } from "react-router-dom";
-import {
-  IoInformationCircle,
-  IoInformationCircleOutline,
-} from "react-icons/io5";
+import { IoInformationCircleOutline } from "react-icons/io5";
 
 export default function Signup() {
   const user = useUserStore((state) => state.user);

@@ -1,7 +1,6 @@
 import NiceModal, { useModal } from "@ebay/nice-modal-react";
 import { Dialog, Transition } from "@headlessui/react";
-import { SupabaseClient } from "@supabase/supabase-js";
-import React, { FormEvent, Fragment, useEffect, useRef, useState } from "react";
+import React, { FormEvent, Fragment, useRef, useState } from "react";
 import { BsTrashFill } from "react-icons/bs";
 import { MdFileUpload } from "react-icons/md";
 import { postNewAttachment } from "../../api/services/attachments";
@@ -51,7 +50,6 @@ const UploadAttachmentModal = NiceModal.create(() => {
         type: file.type,
         extension: getFIleExtension(file.name),
       });
-
     }
   };
 
@@ -67,7 +65,7 @@ const UploadAttachmentModal = NiceModal.create(() => {
         const { data } = supabase.storage
           .from("attachments")
           .getPublicUrl(`${selectedCard.id}/${filename}`);
-        const { data : attachment } = await postNewAttachment({
+        const { data: attachment } = await postNewAttachment({
           filename: file.name,
           pathname: `${selectedCard.id}/${filename}`,
           url: data.publicUrl,
@@ -76,10 +74,10 @@ const UploadAttachmentModal = NiceModal.create(() => {
           extension: getFIleExtension(file.name),
         });
 
-        if(attachment) {
+        if (attachment) {
           addNewAttachment(attachment);
         }
-        
+
         modal.hide();
       }
     } catch (err) {

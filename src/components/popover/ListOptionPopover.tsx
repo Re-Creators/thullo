@@ -11,11 +11,8 @@ interface Props {
 }
 
 export default function ListOptionPopover({ listId }: Props) {
-  const deleteList = useListStore.getState().deleteList;
-
   const deleteHandler = async () => {
     await deleteSingleList(listId);
-    // deleteList(listId);
   };
 
   let [referenceElement, setReferenceElement] =

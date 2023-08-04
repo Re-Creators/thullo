@@ -6,7 +6,6 @@ import ReactTextareaAutosize from "react-textarea-autosize";
 import { postNewCard } from "../../api/services/cards";
 import { updateList } from "../../api/services/lists";
 import useClickOutside from "../../hooks/useClickOutside";
-import useListStore from "../../store/useListStore";
 import { CardData, ListData } from "../../types";
 import ListOptionPopover from "../popover/ListOptionPopover";
 import CardItem from "./CardItem";
@@ -133,7 +132,6 @@ export default function List({ cards, list }: Props) {
         ) : (
           <button
             className="flex items-center justify-between w-full bg-blue-200 hover:bg-blue-300 active:translate-y-0.5 text-blue-800 py-2 px-3 rounded-lg cursor-pointer"
-            role="button"
             tabIndex={0}
             onClick={() => setIsCreateCard(true)}
           >

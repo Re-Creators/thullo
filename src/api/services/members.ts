@@ -1,4 +1,3 @@
-import { Profile } from "../../types";
 import { supabase } from "../supabaseClient";
 
 type Member = {

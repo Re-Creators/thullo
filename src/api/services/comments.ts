@@ -1,4 +1,3 @@
-import { CommentData } from "../../types";
 import { supabase } from "../supabaseClient";
 
 export const fetchComments = async (cardId: string) => {

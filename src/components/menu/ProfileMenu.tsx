@@ -1,8 +1,7 @@
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment } from "react";
 import { AiOutlineCaretDown } from "react-icons/ai";
 import useUserStore from "../../store/useUserStore";
-import { MdAccountCircle } from "react-icons/md";
 import { BiLogOut } from "react-icons/bi";
 import { supabase } from "../../api/supabaseClient";
 
@@ -11,7 +10,7 @@ export default function ProfileMenu() {
 
   const signOut = async () => {
     await supabase.auth.signOut();
-    location.reload();
+    window.location.reload();
   };
 
   return (

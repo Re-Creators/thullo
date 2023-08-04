@@ -1,7 +1,5 @@
-import { BsPeopleFill } from "react-icons/bs";
 import { HiUserCircle } from "react-icons/hi";
 import CoverPopover from "../../popover/CoverPopover";
-import InviteMemberPopover from "../../popover/InviteMemberPopover";
 import LabelPopover from "../../popover/LabelPopover";
 
 export default function Actions() {

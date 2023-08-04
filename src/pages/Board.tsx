@@ -21,8 +21,7 @@ import WrapperPopover from "../components/popover/WrapperPopover";
 import useErrorStore from "../store/useErrorStore";
 import UploadAttachmentModal from "../components/modals/UploadAttachmentModal";
 import { supabase } from "../api/supabaseClient";
-import { AttachmentData, CardData, ListData, ListPayload } from "../types";
-import useAttachmentStore from "../store/useAttachmentStore";
+import { CardData, ListPayload } from "../types";
 import SideMenu from "../components/board/SideMenu";
 
 NiceModal.register("card-information", CardInformationModal);
@@ -43,7 +42,6 @@ export default function Board() {
   const setBoard = useBoardStore.getState().setBoard;
   const updateCards = useCardStore.getState().updateCards;
   const updateListInfo = useListStore.getState().updateListInfo;
-  const updateAttachment = useAttachmentStore.getState().updateAttachment;
   const setErrorCode = useErrorStore.getState().setErrorCode;
   const dragAndDrop = useCardStore((state) => state.dragAndDrop);
   const { boardId } = useParams();

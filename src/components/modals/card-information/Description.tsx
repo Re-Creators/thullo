@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function Description({ text, cardId }: Props) {
-  const [descriptionText, setDescriptionText] = useState(text);
+  const [descriptionText] = useState(text);
   const setSelectedCard = useCardStore((state) => state.selectCard);
   const ref = useRef<HTMLTextAreaElement>(null);
   const [editMode, setEditMode] = useState(false);

@@ -1,4 +1,3 @@
-import TopBar from "./components/TopBar";
 import { Routes, Route } from "react-router-dom";
 import Workspace from "./pages/Workspace";
 import Board from "./pages/Board";
@@ -20,7 +19,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data, error } = await supabase.auth.getSession();
+        const { data } = await supabase.auth.getSession();
 
         if (data?.session) {
           const {
@@ -36,7 +35,7 @@ function App() {
     };
 
     supabase.auth.onAuthStateChange((event, session) => {
-      if (event == "SIGNED_IN" && session?.user) {
+      if (event === "SIGNED_IN" && session?.user) {
         if (session?.user) {
           setUser(session.user);
         }

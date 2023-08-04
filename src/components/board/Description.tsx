@@ -13,7 +13,7 @@ interface Props {
 }
 
 export default function Description({ text, setBoard }: Props) {
-  const [descriptionText, setDescriptionText] = useState(text);
+  const [descriptionText] = useState(text);
   const updateBoardDesc = useBoardStore.getState().updateBoardDesc;
   const { boardId } = useParams();
   const ref = useRef<HTMLTextAreaElement>(null);

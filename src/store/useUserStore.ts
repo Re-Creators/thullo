@@ -1,7 +1,6 @@
 import { User } from "@supabase/supabase-js";
 import create from "zustand";
 import { devtools } from "zustand/middleware";
-import { Profile } from "../types";
 
 export const user = "";
 

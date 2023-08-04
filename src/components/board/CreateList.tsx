@@ -4,11 +4,9 @@ import { IoCloseSharp } from "react-icons/io5";
 import { useParams } from "react-router-dom";
 import { postNewList } from "../../api/services/lists";
 import useClickOutside from "../../hooks/useClickOutside";
-import useListStore from "../../store/useListStore";
 
 export default function CreateList() {
   const { boardId } = useParams();
-  const addList = useListStore((state) => state.addList);
   const containerRef = useClickOutside(() => {
     setIsShow(false);
   });

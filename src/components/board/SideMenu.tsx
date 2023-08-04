@@ -1,9 +1,4 @@
-import { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { AiOutlineClose } from "react-icons/ai";
-import { HiUserCircle } from "react-icons/hi";
-import Description from "./Description";
-import Team from "./Team";
+import { useState } from "react";
 import moment from "moment";
 import { BiChevronRight } from "react-icons/bi";
 import useBoardStore from "../../store/useBoardStore";

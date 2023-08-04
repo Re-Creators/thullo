@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 import MainContent from "./MainContent";
 import Actions from "./Actions";
