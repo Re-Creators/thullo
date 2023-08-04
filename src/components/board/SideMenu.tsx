@@ -11,7 +11,7 @@ export default function SideMenu() {
 
   return (
     <div
-      className={`block md:hidden absolute top-0 -left-1 inset-y-0 z-20 transition-all duration-150 ${
+      className={`block md:hidden absolute top-0 -left-4 inset-y-0 z-20 transition-all duration-150 ${
         isShowing ? "right-[40%]" : "w-7"
       }`}
     >

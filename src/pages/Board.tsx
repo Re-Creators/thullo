@@ -99,7 +99,7 @@ export default function Board() {
   }, []);
 
   return (
-    <div className="h-full bg-white p-8 mt-1 flex flex-col relative">
+    <div className="h-full bg-white p-3 lg:p-8 mt-1 flex flex-col relative">
       <BoardMenu isShowing={showMenu} setIsShowing={setShowMenu} />
       <SideMenu />
       <div className="flex justify-between h-10">

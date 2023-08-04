@@ -18,7 +18,7 @@ export default function ProfileMenu() {
       <Menu as="div" className="relative inline-block text-left">
         <div>
           <div className="flex items-center space-x-2">
-            <Menu.Button className="w-10 h-10 rounded-full overflow-hidden">
+            <Menu.Button className="w-8 h-8 lg:w-10 lg:h-10 rounded-full overflow-hidden">
               <img
                 src={user?.user_metadata.avatar_url}
                 alt="Profile"

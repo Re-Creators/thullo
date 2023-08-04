@@ -9,10 +9,10 @@ function TopBar() {
   const { pathname } = useLocation();
 
   return (
-    <nav className="p-5 bg-white shadow-md flex justify-between items-center md:min-h-[70px] ">
+    <nav className="p-2 lg:p-5 bg-white shadow-md flex justify-between items-center md:min-h-[70px] ">
       <div className="flex items-center">
         <Link to="/">
-          <img src={Logo} alt="Logo" className="min-w-[80px]" />
+          <img src={Logo} alt="Logo" className="w-[80px] lg:min-w-[80px]" />
         </Link>
         {pathname !== "/" && (
           <div className="hidden md:flex items-center ml-24 ">
