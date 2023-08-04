@@ -1,85 +1,116 @@
 import React, { FormEvent, useState } from "react";
-import { updateUser } from "../api/services/user";
 import { supabase } from "../api/supabaseClient";
+import { MdLock, MdMail } from "react-icons/md";
+import logo from "../assets/images/Logo.svg";
+import { BiUser } from "react-icons/bi";
+import useUserStore from "../store/useUserStore";
+import { Navigate } from "react-router-dom";
 
 export default function Signup() {
+  const user = useUserStore((state) => state.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSignup = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    let { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          username,
-          avatar_url: `https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${username}`,
+    setIsLoading(true);
+
+    try {
+      let { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            username,
+            avatar_url: `https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${username}`,
+          },
         },
-      },
-    });
-    if (error) {
-      // TODO: add appropriate error handling
-      console.log("Error");
+      });
+      if (error) throw error;
+    } catch (err: any) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  if (user) return <Navigate to="/" />;
   return (
-    <div className="w-1/3 mx-auto mt-24 p-8 rounded-lg bg-white shadow-lg  ">
-      <form onSubmit={handleSignup}>
-        <div>
-          <label
-            htmlFor="username"
-            className="block text-gray-700 text-sm font-bold mb-2"
-          >
-            Username
-          </label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="p-2 w-full border outline-blue-400"
-          />
+    <div className="md:min-h-screen flex justify-center">
+      <div className="md:w-1/2 lg:w-1/3 px-5 md:m-auto">
+        <div className="md:px-10 md:py-10 rounded-lg md:border md:border-gray-500 ">
+          <section>
+            <img src={logo} alt="Logo" />
+            <div className="text-left pr-8 mt-5 md:mt-3">
+              <p className="font-semibold">
+                Sign up to get started with Thullo
+              </p>
+              <p className="text-sm mt-5 md:mt-3">
+                Boost your productivity with Thullo and start getting things
+                done today.
+              </p>
+            </div>
+          </section>
+          <section className="mt-5 md:mt-3">
+            <form onSubmit={handleSignup}>
+              <div className="relative">
+                <input
+                  type="text"
+                  className="w-full border border-gray-400 p-2 pl-10 text-sm"
+                  placeholder="Username"
+                  required
+                  onChange={(e) => setUsername(e.target.value)}
+                  value={username}
+                />
+                <BiUser className="w-10 h-10 absolute left-0 top-0 p-2 text-gray-500" />
+              </div>
+              <div className="relative mt-5 md:mt-3">
+                <input
+                  type="email"
+                  className="w-full border border-gray-400 p-2 pl-10 text-sm"
+                  placeholder="Email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
+                />
+                <MdMail className="w-10 h-10 absolute left-0 top-0 p-2 text-gray-500" />
+              </div>
+              <div className="relative mt-5 md:mt-3">
+                <input
+                  type="password"
+                  className="w-full border border-gray-400 p-2 pl-10 text-sm"
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  value={password}
+                />
+                <MdLock className="w-10 h-10 absolute left-0 top-0 p-2 text-gray-500" />
+              </div>
+              <button
+                type="submit"
+                className="w-full p-3 bg-blue-500 text-white text-sm mt-5 rounded-lg hover:bg-blue-600 active:bg-blue-700"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <div className="flex justify-center items-center space-x-2">
+                    <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white"></div>
+                    <span>Loading...</span>
+                  </div>
+                ) : (
+                  "Sign up"
+                )}
+              </button>
+              <p className="mt-2 text-sm">
+                Already have an account?{" "}
+                <a href="/signin" className="text-blue-500 hover:underline">
+                  Sign in
+                </a>
+              </p>
+            </form>
+          </section>
         </div>
-        <div className="mt-3">
-          <label
-            htmlFor="email"
-            className="block text-gray-700 text-sm font-bold mb-2"
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="p-2 w-full border outline-blue-400"
-          />
-        </div>
-        <div className="mt-3">
-          <label
-            htmlFor="email"
-            className="block text-gray-700 text-sm font-bold mb-2"
-          >
-            Password
-          </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="p-2 w-full border outline-blue-400"
-          />
-        </div>
-        <div className="mt-5">
-          <button
-            className="w-full py-3 rounded-lg bg-blue-500 hover:bg-blue-600 text-white"
-            type="submit"
-          >
-            Register
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
   );
 }

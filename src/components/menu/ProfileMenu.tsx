@@ -4,9 +4,15 @@ import { AiOutlineCaretDown } from "react-icons/ai";
 import useUserStore from "../../store/useUserStore";
 import { MdAccountCircle } from "react-icons/md";
 import { BiLogOut } from "react-icons/bi";
+import { supabase } from "../../api/supabaseClient";
 
 export default function ProfileMenu() {
   const user = useUserStore((state) => state.user);
+
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    location.reload();
+  };
 
   return (
     <div className="">
@@ -46,10 +52,13 @@ export default function ProfileMenu() {
                 </div>
               </Menu.Item>
               <Menu.Item>
-                <div className="flex space-x-3 items-center py-2 px-4 mr-14 w-full rounded-lg hover:bg-gray-100 cursor-pointer">
+                <button
+                  className="flex space-x-3 items-center py-2 px-4 mr-14 w-full rounded-lg hover:bg-gray-100 cursor-pointer"
+                  onClick={signOut}
+                >
                   <BiLogOut className="w-7 h-7" />
                   <span>Logout</span>
-                </div>
+                </button>
               </Menu.Item>
             </div>
           </Menu.Items>
