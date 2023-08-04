@@ -11,6 +11,7 @@ export default function Workspace() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    document.title = "Workspace | Thullo";
     const fetchBoards = async () => {
       setIsLoading(true);
 

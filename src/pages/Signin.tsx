@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { supabase } from "../api/supabaseClient";
 import useUserStore from "../store/useUserStore";
 import { Link, Navigate } from "react-router-dom";
@@ -31,6 +31,10 @@ export default function Signin() {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    document.title = "Signin | Thullo";
+  }, []);
 
   if (user) return <Navigate to="/" />;
   return (

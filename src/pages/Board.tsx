@@ -68,6 +68,8 @@ export default function Board() {
       setLists(data.lists);
       setCards(data.cards);
       setLabels(data.labels);
+
+      document.title = `${data.name} | Thullo`;
     };
     fetchBoard();
   }, []);

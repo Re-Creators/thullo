@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { supabase } from "../api/supabaseClient";
 import { MdLock, MdMail } from "react-icons/md";
 import logo from "../assets/images/Logo.svg";
@@ -37,6 +37,10 @@ export default function Signup() {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    document.title = "Signup | Thullo";
+  }, []);
 
   if (user) return <Navigate to="/" />;
   return (
