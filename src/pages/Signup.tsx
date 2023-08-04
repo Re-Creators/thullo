@@ -5,6 +5,10 @@ import logo from "../assets/images/Logo.svg";
 import { BiUser } from "react-icons/bi";
 import useUserStore from "../store/useUserStore";
 import { Navigate } from "react-router-dom";
+import {
+  IoInformationCircle,
+  IoInformationCircleOutline,
+} from "react-icons/io5";
 
 export default function Signup() {
   const user = useUserStore((state) => state.user);
@@ -39,7 +43,7 @@ export default function Signup() {
 
   if (user) return <Navigate to="/" />;
   return (
-    <div className="md:min-h-screen flex justify-center">
+    <div className="h-screen md:min-h-screen flex justify-center items-center">
       <div className="md:w-1/2 lg:w-1/3 px-5 md:m-auto">
         <div className="md:px-10 md:py-10 rounded-lg md:border md:border-gray-500 ">
           <section>
@@ -52,6 +56,10 @@ export default function Signup() {
                 Boost your productivity with Thullo and start getting things
                 done today.
               </p>
+            </div>
+            <div className="mt-2 flex space-x-1 items-center w-full bg-blue-200 p-2 rounded-md">
+              <IoInformationCircleOutline className="w-5 h-5 " />
+              <p className="text-xs">You can use random email to sign up</p>
             </div>
           </section>
           <section className="mt-5 md:mt-3">

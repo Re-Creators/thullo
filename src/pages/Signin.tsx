@@ -34,7 +34,7 @@ export default function Signin() {
 
   if (user) return <Navigate to="/" />;
   return (
-    <div className="md:min-h-screen flex md:justify-center">
+    <div className="h-screen md:min-h-screen flex md:justify-center items-center">
       <div className="w-full md:w-1/2 lg:w-1/3 px-5 py-5 md:m-auto">
         <div className="rounded-lg md:border md:border-gray-500 md:px-10 md:py-10">
           <section>
