@@ -90,7 +90,7 @@ const UploadAttachmentModal = NiceModal.create(() => {
       <Transition appear show={modal.visible}>
         <Dialog
           as="div"
-          className="relative z-20"
+          className="relative z-40"
           onClose={() => {
             modal.hide();
             setTimeout(() => {
