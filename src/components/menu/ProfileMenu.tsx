@@ -43,17 +43,11 @@ export default function ProfileMenu() {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute z-50 right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Menu.Items className="absolute z-50 right-0 mt-2 w-32 lg:w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="px-1 py-1 ">
               <Menu.Item>
-                <div className="flex space-x-3 items-center py-2 px-4 mr-14 w-full rounded-lg hover:bg-gray-100 cursor-pointer">
-                  <MdAccountCircle className="w-7 h-7" />
-                  <span>My Profile</span>
-                </div>
-              </Menu.Item>
-              <Menu.Item>
                 <button
-                  className="flex space-x-3 items-center py-2 px-4 mr-14 w-full rounded-lg hover:bg-gray-100 cursor-pointer"
+                  className="flex space-x-3 items-center py-2 px-4 w-full rounded-lg hover:bg-gray-100 cursor-pointer"
                   onClick={signOut}
                 >
                   <BiLogOut className="w-7 h-7" />

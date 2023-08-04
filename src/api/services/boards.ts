@@ -43,19 +43,17 @@ export const fetchSingleBoard = async (boardId?: string) => {
 
 export const postBoard = async (board: BoardData) => {
   try {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("boards")
       .insert(board)
-      .select()
-      .single();
 
     if (error) {
       console.error(error);
-      return { data: null, error };
+      return { error };
     }
-    return { data, error: null };
+    return { error: null };
   } catch (err) {
-    return { data: null, error: err };
+    return {  error: err };
   }
 };
 
