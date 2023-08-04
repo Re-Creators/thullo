@@ -1,13 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../assets/images/Logo.svg";
-import { AiOutlineCaretDown } from "react-icons/ai";
 import useBoardStore from "../store/useBoardStore";
 import { BsFillGrid3X3GapFill } from "react-icons/bs";
-import useUserStore from "../store/useUserStore";
+import ProfileMenu from "./menu/ProfileMenu";
 
 function TopBar() {
   const board = useBoardStore((state) => state.board);
-  const user = useUserStore((state) => state.user);
   const { pathname } = useLocation();
 
   return (
@@ -30,19 +28,7 @@ function TopBar() {
         )}
       </div>
       <div className="flex space-x-16">
-        <div className="flex items-center space-x-3">
-          <div className="w-12 h-12 rounded-full overflow-hidden">
-            <img
-              src={user?.user_metadata.avatar_url}
-              alt="Profile"
-              className="w-full h-full object-cover object-center"
-            />
-          </div>
-          <div className="hidden lg:block">{user?.user_metadata.username}</div>
-          <button className="hidden lg:block">
-            <AiOutlineCaretDown />
-          </button>
-        </div>
+        <ProfileMenu />
       </div>
     </nav>
   );

@@ -66,7 +66,6 @@ export default function InviteMemberPopover({ title, description }: Props) {
     }
   }, [keyword, doSearch]);
 
-  console.log("Rerender");
   return (
     <div className="bg-white p-4 border">
       <div>
