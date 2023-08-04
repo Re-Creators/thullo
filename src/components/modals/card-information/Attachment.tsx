@@ -64,18 +64,20 @@ function Attachment() {
                 <small className="text-xs text-gray-400">
                   {moment(attachment.created_at).format("ll")}
                 </small>
-                <h2 className="font-semibold">{attachment.filename}</h2>
+                <h2 className="text-sm w-4/5 lg:w-full lg:text-base font-semibold">
+                  {attachment.filename}
+                </h2>
               </div>
-              <div className="flex space-x-3">
+              <div className="flex space-x-3 mt-2">
                 <a
                   href={attachment.url}
-                  className="w-24 py-2 text-center rounded-lg border-2 text-sm hover:bg-gray-300"
+                  className="px-2 py-2 text-center rounded-lg border-2 text-xs lg:text-sm hover:bg-gray-300"
                   download={true}
                 >
                   Download
                 </a>
                 <button
-                  className="w-24 py-2 rounded-lg border-2 text-sm hover:bg-gray-300"
+                  className="px-2 py-2 rounded-lg border-2 text-xs lg:text-sm hover:bg-gray-300"
                   onClick={() =>
                     handleDelete(attachment.id, attachment.pathname)
                   }

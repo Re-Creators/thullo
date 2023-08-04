@@ -17,7 +17,7 @@ const CardInformationModal = NiceModal.create(({ listName }: Props) => {
   return (
     <>
       <Transition appear show={modal.visible} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={modal.hide}>
+        <Dialog as="div" className="relative z-30" onClose={modal.hide}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -31,7 +31,7 @@ const CardInformationModal = NiceModal.create(({ listName }: Props) => {
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <div className="flex min-h-full items-center justify-center p-1 lg:p-4 text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -41,11 +41,11 @@ const CardInformationModal = NiceModal.create(({ listName }: Props) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-1/2 transform relative rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full xl:w-1/2 transform relative rounded-md lg:rounded-2xl bg-white p-3 lg:p-6 text-left align-middle shadow-xl transition-all">
                   {card && (
                     <>
                       <button
-                        className="btn-blue absolute right-4 top-4 p-2 z-10 outline-none"
+                        className="btn-blue absolute -right-0 -top-2 lg:right-4 lg:top-4 p-2 z-10 outline-none"
                         onClick={modal.hide}
                       >
                         <IoCloseSharp fontSize={24} />
@@ -59,7 +59,7 @@ const CardInformationModal = NiceModal.create(({ listName }: Props) => {
                           />
                         </div>
                       )}
-                      <div className="grid grid-cols-[70%_1fr] gap-10 mt-5">
+                      <div className="grid lg:grid-cols-[70%_1fr] gap-10 mt-5">
                         <MainContent listName={listName} card={card} />
                         <Actions />
                       </div>

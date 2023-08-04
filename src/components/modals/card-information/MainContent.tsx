@@ -23,7 +23,7 @@ export default function MainContent({ listName, card }: Props) {
       const { data } = await updateCard(card.id, {
         name,
       });
-      
+
       if (data) {
         updateCardInformation(data);
       }
@@ -31,10 +31,10 @@ export default function MainContent({ listName, card }: Props) {
   };
   return (
     <div className="space-y-8">
-      <div>
+      <div className="flex flex-col">
         <input
           type="text"
-          className="w-full outline-none py-1 px-2 border-2 border-transparent font-semibold focus:border-blue-500 rounded-lg"
+          className="w-4/5 lg:w-full outline-none py-1 px-2 border-2 border-transparent font-semibold focus:border-blue-500 rounded-lg"
           defaultValue={card.name}
           onBlur={nameChangeHandler}
         />

@@ -53,12 +53,12 @@ export default function Comment() {
 
   return (
     <div>
-      <div className="w-full p-3 rounded-lg shadow-lg border mt-5 flex">
-        <div className="img-container w-10 h-10">
+      <div className="w-full p-3 rounded-lg shadow-md border mt-10 lg:mt-5 flex">
+        <div className="">
           <img
-            src="https://images.unsplash.com/photo-1658171402816-315e4cb993bb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+            src={user?.user_metadata.avatar_url}
             alt=""
-            className="img-full"
+            className="w-10 h-10 rounded-full"
           />
         </div>
         <div className="ml-3 grow">
@@ -69,7 +69,7 @@ export default function Comment() {
             onChange={(e) => setText(e.target.value)}
           />
           <button
-            className="btn-blue px-5 py-1 text-sm float-right"
+            className="btn-blue px-5 py-1 text-sm float-right mt-5"
             disabled={text.trim().length <= 0}
             onClick={commentHandler}
           >
@@ -97,7 +97,7 @@ export default function Comment() {
                 </div>
               </div>
               {user?.id === comment.profile_id && (
-                <div className="flex text-gray-400 text-sm">
+                <div className="flex text-gray-400 text-xs lg:text-sm">
                   <button className="hover:text-gray-500">Edit</button>
                   <button
                     className="ml-3 hover:text-gray-500"
@@ -109,7 +109,7 @@ export default function Comment() {
               )}
             </div>
             <div className="mt-3">
-              <p className="w-full text-sm">{comment.text}</p>
+              <p className="w-full text-xs lg:text-sm">{comment.text}</p>
             </div>
           </div>
         ))}

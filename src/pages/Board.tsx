@@ -99,13 +99,13 @@ export default function Board() {
   }, []);
 
   return (
-    <div className="h-full bg-white px-8 pt-8 flex flex-col relative">
+    <div className="h-full bg-white p-8 mt-1 flex flex-col relative">
       <BoardMenu isShowing={showMenu} setIsShowing={setShowMenu} />
       <SideMenu />
       <div className="flex justify-between h-10">
         <div className="flex">
           <VisibilityPopover />
-          <div className="md:ml-5 flex space-x-3">
+          <div className="md:ml-5 flex">
             <Members />
             <WrapperPopover>
               <InviteMemberPopover
